@@ -23,12 +23,11 @@ import com.muvari.restaurantmediator.R;
 
 import android.content.ClipData;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 /**
@@ -194,18 +193,11 @@ public void onDrop (DragSource source) {
     int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
     setBackgroundResource (bg);
 
-    // The view being dragged does not actually change its parent and switch over to the ImageCell.
-    // What we do is copy the drawable from the source view.
-    ImageView sourceView = (ImageView) source.dragDropView ();
-    Drawable d = sourceView.getDrawable ();
-    if (d != null) {
-      // this.setImageDrawable (d);
-       this.invalidate ();
-    } else {
-      Log.e (DragActivity.LOG_NAME, "ImageCell.onDrop. Null Drawable");
-    }
-
-    // toast ("onDrop cell " + mCellNumber);
+    RelativeLayout sourceView = (RelativeLayout) source.dragDropView ();
+    ViewGroup parent = (ViewGroup) sourceView.getParent();
+    parent.removeViewInLayout(sourceView);
+    addView(sourceView);
+    invalidate ();
 }
 
 /**
