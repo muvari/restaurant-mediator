@@ -26,7 +26,6 @@
     android:stretchMode="columnWidth"
     android:gravity="center"
     android:layout_weight="0.8"
-    android:background="@color/grid_background"
 />
 <LinearLayout 
    android:id="@+id/bottom_part"
@@ -44,7 +43,7 @@
     android:layout_centerHorizontal="true"
     android:onClick="onClickAddImage"
     android:text="Add image"/>
-<dragndrop.DeleteZone
+<com.muvari.restaurantmediator.dragndrop.DeleteZone
     android:id="@+id/delete_zone_view"
     android:layout_width="@dimen/delete_zone_size" 
     android:layout_height="@dimen/delete_zone_size" 

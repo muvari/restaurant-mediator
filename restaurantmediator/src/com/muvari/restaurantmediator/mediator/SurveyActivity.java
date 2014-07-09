@@ -1,4 +1,4 @@
-package restaurantmediator;
+package com.muvari.restaurantmediator.mediator;
 
 import com.muvari.restaurantmediator.R;
 

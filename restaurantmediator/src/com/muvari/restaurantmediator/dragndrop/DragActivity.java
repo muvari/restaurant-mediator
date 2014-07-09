@@ -1,4 +1,4 @@
-package dragndrop;
+package com.muvari.restaurantmediator.dragndrop;
 
 /*
  * Copyright (C) 2013 Wglxy.com
@@ -20,6 +20,7 @@ package dragndrop;
  */
 
 import com.muvari.restaurantmediator.R;
+import com.muvari.restaurantmediator.mediator.RPC;
 
 import android.app.Activity;
 //import android.content.ClipData;
@@ -37,6 +38,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -74,7 +76,6 @@ public static final String LOG_NAME = "DragActivity";
 
 private DragController mDragController;   // Object that handles a drag-drop sequence. 
                                           // It interacts with DragSource and DropTarget objects.
-//private GridView mGridView;               // the GridView
 private DeleteZone mDeleteZone;           // A drop target that is used to remove objects from the screen.
 private int mImageCount = 0;              // The number of images that have been added to screen.
 private ImageCell mLastNewCell = null;    // The last ImageCell added to the screen when Add Image is clicked.
@@ -90,15 +91,17 @@ public static final boolean Debugging = false;   // Use this to see extra toast 
  */
 // Methods
 
+
 /**
- * Add a new image so the user can move it around. It shows up in the image_source_frame
- * part of the screen.
- * 
- * @param resourceId int - the resource id of the image to be added
+ * Add one of the images to the screen so the user has a new image to move around. 
+ * See addImageToScreen.
+ *
  */    
 
-public void addNewImageToScreen (int resourceId)
+public void addNewImageToScreen ()
 {
+    int m = mImageCount % RPC.CATS.length;
+    
     if (mLastNewCell != null) mLastNewCell.setVisibility (View.GONE);
 
     FrameLayout imageHolder = (FrameLayout) findViewById (R.id.image_source_frame);
@@ -108,7 +111,7 @@ public void addNewImageToScreen (int resourceId)
                                                                    Gravity.CENTER);
        ImageCell newView = new ImageCell (this);
        View.inflate(this, R.layout.cat_chip, newView);
-       //newView.setImageResource (resourceId);
+       ((TextView) (newView.findViewById(R.id.chip_text))).setText(RPC.CATS[m]);
        imageHolder.addView (newView, lp);
        newView.mEmpty = false;
        newView.mCellNumber = -1;
@@ -121,22 +124,6 @@ public void addNewImageToScreen (int resourceId)
        newView.setOnTouchListener (this);
 
     }
-}
-
-/**
- * Add one of the images to the screen so the user has a new image to move around. 
- * See addImageToScreen.
- *
- */    
-
-public void addNewImageToScreen ()
-{
-    int resourceId = R.drawable.hello;
-
-    int m = mImageCount % 3;
-    if (m == 1) resourceId = R.drawable.photo1;
-    else if (m == 2) resourceId = R.drawable.photo2;
-    addNewImageToScreen (resourceId);
 }
 
 /**
@@ -186,9 +173,7 @@ public void onClickAddImage (View v)
     if (gridView == null) toast ("Unable to find GridView");
     else {
          gridView.setAdapter (new ImageCellAdapter (this, mDragController));
-         //gridView.setOnItemClickListener (this);
     }
-    //mGridView = gridView;
 
 
     // Always add the delete_zone so there is a place to get rid of views.

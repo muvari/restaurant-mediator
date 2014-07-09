@@ -1,4 +1,4 @@
-package dragndrop;
+package com.muvari.restaurantmediator.dragndrop;
 
 /*
  * Copyright (C) 2013 Wglxy.com
@@ -97,11 +97,11 @@ public View getView (int position, View convertView, ViewGroup parent)
         // If it's not recycled, create a new ImageCell.
         v = new ImageCell (mContext);
         v.setLayoutParams(new GridView.LayoutParams (cellWidth, cellHeight));
-        //v.setScaleType(ImageView.ScaleType.CENTER_CROP);
         v.setPadding (cellPad, cellPad, cellPad, cellPad);
 
     } else {
         v = (ImageCell) convertView;
+        v.removeAllViews();
        // v.setImageDrawable (null);     // Important. Otherwise, recycled views show old image.
     }
 

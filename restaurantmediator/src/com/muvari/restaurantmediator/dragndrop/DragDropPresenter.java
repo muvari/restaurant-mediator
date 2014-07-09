@@ -1,4 +1,4 @@
-package dragndrop;
+package com.muvari.restaurantmediator.dragndrop;
 
 /*
  * Copyright (C) 2013 Wglxy.com

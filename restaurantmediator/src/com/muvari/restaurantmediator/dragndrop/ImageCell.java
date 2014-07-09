@@ -1,4 +1,4 @@
-package dragndrop;
+package com.muvari.restaurantmediator.dragndrop;
 
 /*
  * Copyright (C) 2013 Wglxy.com
@@ -125,10 +125,11 @@ public void onDragStarted () {
 
 public void onDropCompleted (DropTarget target, boolean success) {
     // Undo what we did in onDragStarted
+	/*
     if (mCellNumber >= 0) {
       // clearColorFilter ();
        invalidate ();
-    }
+    } */
 
     // If the drop succeeds, the image has moved elsewhere. 
     // So clear the image cell.
@@ -137,8 +138,9 @@ public void onDropCompleted (DropTarget target, boolean success) {
        Log.d (DragActivity.LOG_NAME, "ImageCell.onDropCompleted - clearing source: " + mCellNumber);
        mEmpty = true;
        if (mCellNumber >= 0) {
-          int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
-          setBackgroundResource (bg);
+          //int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
+          //setBackgroundResource (bg);
+          this.removeAllViews();
           //setImageDrawable (null);
        } else {
          // If the cell number is negative, it means we are interacting with a free-standing
@@ -146,6 +148,7 @@ public void onDropCompleted (DropTarget target, boolean success) {
          // the user clicks "add image".
          // At the conclusion of a drop, clear it.
         // setImageResource (0);
+    	   this.removeAllViews();
        }
     } else {
       // On the failure case, reset the background color in case it is still set to the hover color.
@@ -190,14 +193,13 @@ public void onDrop (DragSource source) {
         
     // Mark the cell so it is no longer empty.
     mEmpty = false;
-    int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
-    setBackgroundResource (bg);
+    //int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
+    //setBackgroundResource (bg);
 
     RelativeLayout sourceView = (RelativeLayout) source.dragDropView ();
     ViewGroup parent = (ViewGroup) sourceView.getParent();
     parent.removeViewInLayout(sourceView);
     addView(sourceView);
-    invalidate ();
 }
 
 /**

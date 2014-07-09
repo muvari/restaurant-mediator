@@ -1,4 +1,4 @@
-package dragndrop;
+package com.muvari.restaurantmediator.dragndrop;
 
 /*
  * Copyright (C) 2013 Wglxy.com
@@ -146,18 +146,11 @@ public DragController (DragDropPresenter p) {
 
       case DragEvent.ACTION_DROP: 
         Log.d (DragActivity.LOG_NAME, "DragController.onDrag - dropped");
-        //   ImageCell ic2 = (ImageCell) mDragSource;
-        //   Log.d (DragActivity.LOG_NAME, "Drag dropped. mDragSource drawable: " + ic2.getDrawable ());
         if (isDropTarget) {
            if (target.allowDrop (mDragSource)) {
               target.onDrop (mDragSource);
               mDropTarget = target;
               mDropSuccess = true;
-              /*
-              if (mDragSource != null) {
-                 mDragSource.onDropCompleted (mDropTarget, mDropSuccess);
-              }
-              */
            }
            eventResult = true;
         } else eventResult = false;
