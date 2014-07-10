@@ -192,8 +192,8 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 
 		// Mark the cell so it is no longer empty.
 		mEmpty = false;
-		ImageCell sourceView = (ImageCell) source.dragDropView();
-		if (sourceView.getParent() != null) 
+		ImageCell sourceView = (ImageCell) source;
+		if (sourceView.getParent() instanceof FrameLayout) 
 			((ViewGroup) sourceView.getParent()).removeViewInLayout(sourceView);
 		if (sourceView.mChip != null) {
 			sourceView.removeViewInLayout(sourceView.mChip);

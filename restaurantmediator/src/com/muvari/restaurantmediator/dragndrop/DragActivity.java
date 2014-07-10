@@ -183,6 +183,13 @@ public void onClickAddImage (View v)
     else {
          gridView.setAdapter (new ImageCellAdapter (this, mDragController));
     }
+    
+    // Set up the grid view with an ImageCellAdapter and have it use the DragController.
+    GridView gridView2 = (GridView) findViewById(R.id.image_grid_view2);
+    if (gridView2 == null) toast ("Unable to find GridView");
+    else {
+         gridView2.setAdapter (new ImageCellAdapter (this, mDragController));
+    }
 
 
     // Always add the delete_zone so there is a place to get rid of views.

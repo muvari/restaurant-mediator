@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <color name="grid_background">#FF000000</color>
-<color name="cell_empty">#FF993311</color>
+<color name="cell_empty">@android:color/darker_gray</color>
 <color name="cell_nearly_empty">#88993311</color>
 <color name="cell_filled">#FFA99033</color>
 <color name="cell_empty_hover">#ff00ff00</color>
