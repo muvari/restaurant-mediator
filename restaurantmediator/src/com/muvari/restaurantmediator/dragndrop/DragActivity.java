@@ -2,6 +2,9 @@ package com.muvari.restaurantmediator.dragndrop;
 
 /*
  * Copyright (C) 2013 Wglxy.com
+ * 
+ *  Edited by muvari https://github.com/muvari/
+ * 
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +23,7 @@ package com.muvari.restaurantmediator.dragndrop;
  */
 
 import com.muvari.restaurantmediator.R;
-import com.muvari.restaurantmediator.mediator.RPC;
+import com.muvari.restaurantmediator.mediator.ChipFactory;
 
 import android.app.Activity;
 //import android.content.ClipData;
@@ -30,6 +33,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -38,6 +42,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,7 +105,7 @@ public static final boolean Debugging = false;   // Use this to see extra toast 
 
 public void addNewImageToScreen ()
 {
-    int m = mImageCount % RPC.CATS.length;
+    int m = mImageCount % ChipFactory.CATS.length;
     
     if (mLastNewCell != null) mLastNewCell.setVisibility (View.GONE);
 
@@ -110,11 +115,15 @@ public void addNewImageToScreen ()
                                                                    LayoutParams.MATCH_PARENT, 
                                                                    Gravity.CENTER);
        ImageCell newView = new ImageCell (this);
-       View.inflate(this, R.layout.cat_chip, newView);
-       ((TextView) (newView.findViewById(R.id.chip_text))).setText(RPC.CATS[m]);
-       imageHolder.addView (newView, lp);
+       RelativeLayout chip = new RelativeLayout(this);
+       LayoutInflater.from(this).inflate(R.layout.cat_chip, chip);
+       ((TextView) (chip.findViewById(R.id.chip_text))).setText(ChipFactory.CATS[m]);
+       
        newView.mEmpty = false;
        newView.mCellNumber = -1;
+       newView.mChip = chip;
+       newView.addView(chip);
+       imageHolder.addView (newView, lp);
        mLastNewCell = newView;
        mImageCount++;
 
