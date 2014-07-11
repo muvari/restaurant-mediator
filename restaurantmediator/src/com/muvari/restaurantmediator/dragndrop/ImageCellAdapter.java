@@ -25,6 +25,8 @@ import com.muvari.restaurantmediator.R;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -40,6 +42,7 @@ public class ImageCellAdapter extends BaseAdapter {
 	public ViewGroup mParentView = null;
 	private Context mContext;
 	private View.OnDragListener mDragListener = null;
+	private int count = -1;
 
 	public ImageCellAdapter(Context c) {
 		mContext = c;
@@ -50,8 +53,15 @@ public class ImageCellAdapter extends BaseAdapter {
 		mContext = c;
 		mDragListener = l;
 	}
+	
+	public ImageCellAdapter(Context c, View.OnDragListener l, int count) {
+		mContext = c;
+		mDragListener = l;
+		this.count = count;
+	}
 
 	public int getCount() {
+		if (count >= 0) return count;
 		Resources res = mContext.getResources();
 		int numImages = res.getInteger(R.integer.num_images);
 		return numImages;
@@ -83,12 +93,8 @@ public class ImageCellAdapter extends BaseAdapter {
 			v = new ImageCell(mContext);
 			v.setLayoutParams(new GridView.LayoutParams(cellWidth, cellHeight));
 			v.setPadding(cellPad, cellPad, cellPad, cellPad);
-
 		} else {
 			v = (ImageCell) convertView;
-			//v.removeAllViews();
-			// v.setImageDrawable (null); // Important. Otherwise, recycled
-			// views show old image.
 		}
 
 		v.mCellNumber = position;
@@ -102,9 +108,11 @@ public class ImageCellAdapter extends BaseAdapter {
 		// The activity decides which events trigger drag operations.
 		// Activities like the Android Launcher require a long click to get a
 		// drag operation started.
-		v.setOnTouchListener((View.OnTouchListener) mContext);
-		v.setOnClickListener((View.OnClickListener) mContext);
-		v.setOnLongClickListener((View.OnLongClickListener) mContext);
+		FragmentActivity act = (FragmentActivity)mContext;
+		Fragment frag = act.getSupportFragmentManager().findFragmentById(R.id.survey_fragment);
+		v.setOnTouchListener((View.OnTouchListener) frag);
+		v.setOnClickListener((View.OnClickListener) frag);
+		v.setOnLongClickListener((View.OnLongClickListener) frag);
 
 		return v;
 	}

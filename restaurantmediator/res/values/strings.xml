@@ -2,7 +2,8 @@
 <resources>
     <string name="instructions">Add an image. Then press on image to drag it. Drop it on the grid.</string>
     <string name="hello">Add an image. Then drag it onto the grid.</string>
-    <string name="app_name">Drag-Drop for GridView</string>
+    <string name="app_name">Restaurant Mediator</string>
+    <string name="dislikes_text">Choose cuisines you are NOT in the mood for (up to 3): </string>
     <integer name="num_images">3</integer>
     <integer name="num_columns">3</integer>
 </resources>

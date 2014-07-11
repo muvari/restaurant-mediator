@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/survey_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -10,6 +11,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:ems="10"
+        android:enabled="false"
+        android:fontFamily="sans-serif"
         android:text="Person 1" />
 
     <TextView
@@ -20,6 +23,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/name_edit"
+        android:fontFamily="sans-serif"
+        android:paddingLeft="8dp"
         android:text="Name:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -30,6 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/name_edit"
+        android:fontFamily="sans-serif"
         android:text="Choose the minimum rating:"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -47,6 +53,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/rating_bar"
+        android:fontFamily="sans-serif"
         android:text="Choose a maximum distance from your location:"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -74,5 +81,28 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/likes"
         layout="@layout/likes_container" />
+
+    <TextView
+        android:id="@+id/cat_pool_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/dislikes"
+        android:fontFamily="sans-serif"
+        android:text="Tap on or drag/drop types of food from here:"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <GridView
+        android:id="@+id/cat_pool"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_below="@+id/cat_pool_text"
+        android:gravity="center"
+        android:horizontalSpacing="@dimen/grid_cell_spacing"
+        android:numColumns="3"
+        android:paddingTop="8dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/grid_cell_spacing" />
 
 </RelativeLayout>
