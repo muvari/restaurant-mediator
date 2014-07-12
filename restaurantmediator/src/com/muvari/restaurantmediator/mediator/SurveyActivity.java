@@ -91,10 +91,6 @@ public class SurveyActivity extends FragmentActivity {
 			
 			return view;
 		}
-		
-		private void loadCategories() {
-			
-		}
 
 		@Override
 		public boolean onTouch(View arg0, MotionEvent arg1) {

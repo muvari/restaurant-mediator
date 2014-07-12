@@ -110,8 +110,8 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 	 */
 	public void onDragStarted() {
 		// Change the cell a bit so the user can tell which cell they started with.
-		if (mCellNumber >= 0) 
-			setBackgroundResource (R.color.cell_empty);
+		//if (mCellNumber >= 0) 
+			//setBackgroundResource (R.color.cell_empty);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 							+ mCellNumber);
 			mEmpty = true;
 			if (mCellNumber >= 0) {
-				setBackgroundResource (mEmpty ? R.color.cell_empty : R.color.cell_filled);
+				//setBackgroundResource (mEmpty ? R.color.cell_empty : R.color.cell_filled);
 			} else {
 				// If the cell number is negative, it means we are interacting
 				// with a free-standing
@@ -145,12 +145,13 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 			if (mChip != null) {
 				removeViewInLayout(mChip);
 				mChip = null;
+				mCat = null;
 			}
 		} else {
 			// On the failure case, reset the background color in case it is
 			// still set to the hover color.
 			if (mCellNumber >= 0) {
-				setBackgroundResource(mEmpty ? R.color.cell_empty : R.color.cell_filled);
+				//setBackgroundResource(mEmpty ? R.color.cell_empty : R.color.cell_filled);
 			}
 		}
 
@@ -202,6 +203,7 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 		}
 		addView(sourceView.mChip);
 		mChip = sourceView.mChip;
+		mCat = sourceView.getmCat();
 	}
 
 	/**
@@ -211,8 +213,8 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 	public void onDragEnter(DragSource source) {
 		if (mCellNumber < 0)
 			return;
-		setBackgroundResource(mEmpty ? R.color.cell_empty_hover
-				: R.color.cell_filled_hover);
+		////setBackgroundResource(mEmpty ? R.color.cell_empty_hover
+				//: R.color.cell_filled_hover);
 	}
 
 	/**
@@ -222,7 +224,7 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 	public void onDragExit(DragSource source) {
 		if (mCellNumber < 0)
 			return;
-		setBackgroundResource(mEmpty ? R.color.cell_empty : R.color.cell_filled);
+		//setBackgroundResource(mEmpty ? R.color.cell_empty : R.color.cell_filled);
 	}
 
 	// Other Methods

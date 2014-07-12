@@ -197,11 +197,6 @@ public void onClickAddImage (View v)
     // That gives the user a place to drag views to get them off the screen.
     mDeleteZone = (DeleteZone) findViewById (R.id.delete_zone_view);
     if (mDeleteZone != null) mDeleteZone.setOnDragListener (mDragController);
-
-    // Give the user a little guidance.
-    Toast.makeText (getApplicationContext(), 
-                    getResources ().getString (R.string.instructions),
-                    Toast.LENGTH_LONG).show ();
 }
 
 /**

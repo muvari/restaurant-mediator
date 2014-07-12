@@ -13,31 +13,45 @@
         android:ems="10"
         android:enabled="false"
         android:fontFamily="sans-serif"
+        android:paddingTop="@dimen/section_padding"
         android:text="Person 1" />
 
     <TextView
         android:id="@+id/name_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rating_text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/name_edit"
-        android:fontFamily="sans-serif"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
         android:paddingLeft="8dp"
-        android:text="Name:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="@string/person_name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/sep1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/name_edit"
+        android:background="@android:color/darker_gray"
+        android:paddingTop="@dimen/section_padding" />
 
     <TextView
         android:id="@+id/rating_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/name_edit"
-        android:fontFamily="sans-serif"
-        android:text="Choose the minimum rating:"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_below="@+id/sep1"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:paddingTop="@dimen/section_padding"
+        android:text="@string/rating_string"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold" />
 
     <RatingBar
         android:id="@+id/rating_bar"
@@ -46,16 +60,27 @@
         android:layout_below="@+id/rating_text"
         android:layout_centerHorizontal="true" />
 
+    <View
+        android:id="@+id/sep2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/rating_bar"
+        android:background="@android:color/darker_gray"
+        android:paddingTop="@dimen/section_padding" />
+
     <TextView
         android:id="@+id/distance_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/rating_bar"
-        android:fontFamily="sans-serif"
-        android:text="Choose a maximum distance from your location:"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_below="@+id/sep2"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:paddingTop="@dimen/section_padding"
+        android:text="@string/distance_string"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold" />
 
     <RatingBar
         android:id="@+id/distance_bar"
@@ -66,32 +91,61 @@
         android:numStars="5"
         android:stepSize="1" />
 
+    <View
+        android:id="@+id/sep3"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/distance_bar"
+        android:background="@android:color/darker_gray"
+        android:paddingTop="@dimen/section_padding" />
+
     <include
         android:id="@+id/likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/distance_bar"
-        layout="@layout/likes_container" />
+        android:layout_below="@+id/sep3"
+        layout="@layout/likes_container"
+        android:paddingTop="@dimen/section_padding" />
+
+    <View
+        android:id="@+id/sep4"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/likes"
+        android:background="@android:color/darker_gray"
+        android:paddingTop="@dimen/section_padding" />
 
     <include
         android:id="@+id/dislikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/likes"
-        layout="@layout/likes_container" />
+        android:layout_below="@id/sep4"
+        layout="@layout/likes_container"
+        android:paddingTop="@dimen/section_padding" />
+
+    <View
+        android:id="@+id/sep5"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dislikes"
+        android:background="@android:color/darker_gray"
+        android:paddingTop="@dimen/section_padding" />
 
     <TextView
         android:id="@+id/cat_pool_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/dislikes"
-        android:fontFamily="sans-serif"
-        android:text="Tap on or drag/drop types of food from here:"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_below="@+id/sep5"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:paddingTop="@dimen/section_padding"
+        android:text="@string/pool_string"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold" />
 
     <GridView
         android:id="@+id/cat_pool"
@@ -101,7 +155,7 @@
         android:gravity="center"
         android:horizontalSpacing="@dimen/grid_cell_spacing"
         android:numColumns="3"
-        android:paddingTop="8dp"
+        android:paddingTop="@dimen/section_padding"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/grid_cell_spacing" />
 

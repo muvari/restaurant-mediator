@@ -79,7 +79,7 @@ public class ChipFactory {
 		FoodCategory object= new FoodCategory(num, cat_info[ICON], cat_info[COLOR], cat_info[NAME], cat_info[SEARCH_NAME]);
 		((ImageView) (chip.findViewById(R.id.chip_image))).setImageResource(object.getIcon());
 		((TextView) (chip.findViewById(R.id.chip_text))).setText(object.getName(context));
-		((TextView) (chip.findViewById(R.id.chip_text))).setBackgroundColor(object.getColor());
+		((TextView) (chip.findViewById(R.id.chip_text))).setBackgroundResource(object.getColor());
 
 		newView.mEmpty = false;
 		newView.mCellNumber = num;
@@ -87,13 +87,7 @@ public class ChipFactory {
 		newView.setmCat(object);
 		newView.addView(chip);
 
-		// Have this activity listen to touch and click events for the view.
-		//newView.setOnClickListener(this);
-		//newView.setOnLongClickListener(this);
-		//newView.setOnTouchListener(this);
-
 		return newView;
-
 	}
 
 }
