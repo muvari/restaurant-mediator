@@ -26,6 +26,7 @@
         android:layout_toLeftOf="@+id/name_edit"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
+        android:layout_centerVertical="true"
         android:paddingLeft="8dp"
         android:text="@string/person_name"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -150,7 +151,7 @@
     <GridView
         android:id="@+id/cat_pool"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="350dp"
         android:layout_below="@+id/cat_pool_text"
         android:gravity="center"
         android:horizontalSpacing="@dimen/grid_cell_spacing"
@@ -158,5 +159,17 @@
         android:paddingTop="@dimen/section_padding"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/grid_cell_spacing" />
+
+        <Button
+            android:id="@+id/done_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/cat_pool"
+        android:background="@color/light_blue"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="@dimen/section_padding" 
+        android:text="DONE"/>
 
 </RelativeLayout>

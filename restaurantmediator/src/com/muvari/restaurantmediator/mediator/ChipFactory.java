@@ -79,7 +79,10 @@ public class ChipFactory {
 		FoodCategory object= new FoodCategory(num, cat_info[ICON], cat_info[COLOR], cat_info[NAME], cat_info[SEARCH_NAME]);
 		((ImageView) (chip.findViewById(R.id.chip_image))).setImageResource(object.getIcon());
 		((TextView) (chip.findViewById(R.id.chip_text))).setText(object.getName(context));
-		((TextView) (chip.findViewById(R.id.chip_text))).setBackgroundResource(object.getColor());
+		
+		//Temp add different colors
+		int[] colors = {R.color.light_blue, R.color.light_red, R.color.light_green, R.color.light_orange, R.color.light_purple};
+		((TextView) (chip.findViewById(R.id.chip_text))).setBackgroundResource(colors[num % 5]);
 
 		newView.mEmpty = false;
 		newView.mCellNumber = num;

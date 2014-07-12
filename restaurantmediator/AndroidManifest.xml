@@ -15,7 +15,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.muvari.restaurantmediator.mediator.SurveyActivity" >
+        <activity android:name="com.muvari.restaurantmediator.mediator.SurveyActivity"
+             android:configChanges="keyboardHidden|orientation"
+             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

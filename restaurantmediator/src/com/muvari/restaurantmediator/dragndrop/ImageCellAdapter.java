@@ -91,16 +91,16 @@ public class ImageCellAdapter extends BaseAdapter {
 		} else {
 		
 		Resources res = mContext.getResources();
-		int cellWidth = res.getDimensionPixelSize(R.dimen.grid_cell_width);
+		//int cellWidth = res.getDimensionPixelSize(R.dimen.grid_cell_width);
 		int cellHeight = res.getDimensionPixelSize(R.dimen.grid_cell_height);
-		int cellPad = res.getDimensionPixelSize(R.dimen.grid_cell_padding);
+		//int cellPad = res.getDimensionPixelSize(R.dimen.grid_cell_padding);
 		mParentView = parent;
 
 		if (convertView == null) {
 			// If it's not recycled, create a new ImageCell.
 			v = new ImageCell(mContext);
-			v.setLayoutParams(new GridView.LayoutParams(cellWidth, cellHeight));
-			v.setPadding(cellPad, cellPad, cellPad, cellPad);
+			v.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, cellHeight));
+			//v.setPadding(cellPad, cellPad, cellPad, cellPad);
 		} else {
 			v = (ImageCell) convertView;
 		}

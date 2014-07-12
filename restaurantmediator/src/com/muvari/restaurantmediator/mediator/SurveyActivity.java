@@ -87,7 +87,7 @@ public class SurveyActivity extends FragmentActivity {
 			GridView catPool = (GridView) view.findViewById(
 					R.id.cat_pool);
 			catPool.setAdapter(new ImageCellAdapter(getActivity(),
-					mDragController, 9));
+					mDragController, 24));
 			
 			return view;
 		}
