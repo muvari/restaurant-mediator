@@ -22,6 +22,8 @@ package com.muvari.restaurantmediator.dragndrop;
  */
 
 import com.muvari.restaurantmediator.R;
+import com.muvari.restaurantmediator.mediator.ChipFactory;
+import com.muvari.restaurantmediator.mediator.SurveyActivity.SurveyFragment;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -43,6 +45,7 @@ public class ImageCellAdapter extends BaseAdapter {
 	private Context mContext;
 	private View.OnDragListener mDragListener = null;
 	private int count = -1;
+	private boolean pool = false;
 
 	public ImageCellAdapter(Context c) {
 		mContext = c;
@@ -58,6 +61,7 @@ public class ImageCellAdapter extends BaseAdapter {
 		mContext = c;
 		mDragListener = l;
 		this.count = count;
+		pool = true;
 	}
 
 	public int getCount() {
@@ -81,13 +85,17 @@ public class ImageCellAdapter extends BaseAdapter {
 	 * @return ImageCell
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ImageCell v = null;
+		if (pool) {
+			v = ChipFactory.createCatChip(mContext, position);
+		} else {
+		
 		Resources res = mContext.getResources();
 		int cellWidth = res.getDimensionPixelSize(R.dimen.grid_cell_width);
 		int cellHeight = res.getDimensionPixelSize(R.dimen.grid_cell_height);
 		int cellPad = res.getDimensionPixelSize(R.dimen.grid_cell_padding);
 		mParentView = parent;
 
-		ImageCell v = null;
 		if (convertView == null) {
 			// If it's not recycled, create a new ImageCell.
 			v = new ImageCell(mContext);
@@ -103,13 +111,14 @@ public class ImageCellAdapter extends BaseAdapter {
 		v.mChip = null;
 		v.setOnDragListener(mDragListener);
 		v.setBackgroundResource(R.color.cell_empty);
+		}
 
 		// Set up to relay events to the activity.
 		// The activity decides which events trigger drag operations.
 		// Activities like the Android Launcher require a long click to get a
 		// drag operation started.
 		FragmentActivity act = (FragmentActivity)mContext;
-		Fragment frag = act.getSupportFragmentManager().findFragmentById(R.id.survey_fragment);
+		Fragment frag = act.getSupportFragmentManager().findFragmentByTag(SurveyFragment.SURVEY_FRAGMENT_TAG);
 		v.setOnTouchListener((View.OnTouchListener) frag);
 		v.setOnClickListener((View.OnClickListener) frag);
 		v.setOnLongClickListener((View.OnLongClickListener) frag);

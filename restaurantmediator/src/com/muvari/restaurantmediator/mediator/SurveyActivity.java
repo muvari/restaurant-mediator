@@ -33,7 +33,7 @@ public class SurveyActivity extends FragmentActivity {
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		
 		SurveyFragment fragment = new SurveyFragment();
-		fragmentTransaction.add(R.id.scrollview, fragment);
+		fragmentTransaction.add(R.id.scrollview, fragment, SurveyFragment.SURVEY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
 		
 	}
@@ -41,6 +41,8 @@ public class SurveyActivity extends FragmentActivity {
 	public static class SurveyFragment extends Fragment implements
 			View.OnLongClickListener, View.OnClickListener, DragDropPresenter,
 			View.OnTouchListener {
+		
+		public static final String SURVEY_FRAGMENT_TAG = "survey_fragment";
 
 		private DragController mDragController;
 		private Vibrator mVibrator;
@@ -89,6 +91,10 @@ public class SurveyActivity extends FragmentActivity {
 			
 			return view;
 		}
+		
+		private void loadCategories() {
+			
+		}
 
 		@Override
 		public boolean onTouch(View arg0, MotionEvent arg1) {
@@ -112,7 +118,7 @@ public class SurveyActivity extends FragmentActivity {
 
 		@Override
 		public void onClick(View arg0) {
-
+			//toast("test");
 		}
 
 		@Override

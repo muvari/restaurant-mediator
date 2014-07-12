@@ -22,6 +22,7 @@ package com.muvari.restaurantmediator.dragndrop;
  */
 
 import com.muvari.restaurantmediator.R;
+import com.muvari.restaurantmediator.mediator.FoodCategory;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -50,6 +51,7 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 	public int mCellNumber = -1;
 	public GridView mGrid;
 	public View mChip;
+	private FoodCategory mCat;
 
 	// Constructors
 
@@ -260,6 +262,14 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 		if (!mEmpty)
 			return super.performLongClick();
 		return false;
+	}
+
+	public FoodCategory getmCat() {
+		return mCat;
+	}
+
+	public void setmCat(FoodCategory mCat) {
+		this.mCat = mCat;
 	}
 
 } 

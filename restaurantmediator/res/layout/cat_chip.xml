@@ -18,8 +18,9 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:fontFamily="sans-serif"  
+        android:textColor="@android:color/white"
         android:layout_toRightOf="@id/chip_image"
-        android:background="@android:color/holo_blue_light"
+        android:background="@color/light_blue"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:text="Italian" >
