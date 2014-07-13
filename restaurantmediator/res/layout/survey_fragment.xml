@@ -163,7 +163,8 @@
     <GridView
         android:id="@+id/cat_pool_expand"
         android:layout_width="wrap_content"
-        android:layout_height="350dp"
+        android:layout_height="1360dp"
+        android:visibility="gone"
         android:layout_below="@+id/cat_pool"
         android:gravity="center"
         android:horizontalSpacing="@dimen/grid_cell_spacing"

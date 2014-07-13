@@ -95,7 +95,7 @@ public class ImageCellAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ImageCell v = null;
 		if (pool) {
-			v = ChipFactory.createCatChip(mContext, position);
+			v = ChipFactory.createCatChip(mContext, position, count == 24 ? true : false);
 		} else {
 		
 		Resources res = mContext.getResources();

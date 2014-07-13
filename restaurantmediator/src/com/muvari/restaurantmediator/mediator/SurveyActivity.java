@@ -107,7 +107,7 @@ public class SurveyActivity extends FragmentActivity {
 			
 			expandGrid = (GridView) view.findViewById(R.id.cat_pool_expand);
 			expandGrid.setAdapter(new ImageCellAdapter(getActivity(),
-					mDragController, 24));
+					mDragController, 96));
 			
 			
 			OnClickListener expandListener = new OnClickListener() {
