@@ -111,19 +111,23 @@ public class ImageCellAdapter extends BaseAdapter {
 				if (contains(position)) {
 					v = createEmptyCell(position, convertView, parent);
 				} else {
-					v = ChipFactory.createCatChip(mContext, position, count == ChipFactory.PRIMARY_CHIPS ? true : false);
+					v = ChipFactory.createCatChip(mContext, position, true);
 				}
 			} else {
 				if (contains(position+ChipFactory.PRIMARY_CHIPS)) {
 					v = createEmptyCell(position, convertView, parent);
 				} else {
-					v = ChipFactory.createCatChip(mContext, position, count == ChipFactory.PRIMARY_CHIPS ? true : false);
+					v = ChipFactory.createCatChip(mContext, position, false);
 				}
 			}
 		} else {
 			
 			if (likes[position] >= 0) {
-				v = ChipFactory.createCatChip(mContext, likes[position], likes[position] < ChipFactory.PRIMARY_CHIPS ? true : false);
+				int num = likes[position];
+				if (likes[position] >= ChipFactory.PRIMARY_CHIPS) {
+					num = num - ChipFactory.PRIMARY_CHIPS;
+				}
+				v = ChipFactory.createCatChip(mContext, num, likes[position] < ChipFactory.PRIMARY_CHIPS ? true : false);
 			} else {
 				v = createEmptyCell(position, convertView, parent);
 			}
