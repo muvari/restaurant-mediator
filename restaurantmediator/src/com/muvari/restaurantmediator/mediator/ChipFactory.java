@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class ChipFactory {
 	public static String[] CATS = { "Italian", "Chinese", "Burgers", "Indian", "Steaks" };
+	public static int PRIMARY_CHIPS = 24;
 
 	// Icon Drawable, Color, Visible name, query name
 	private static final int ICON = 0;
@@ -146,12 +147,13 @@ public class ChipFactory {
 
 	public static ImageCell createCatChip(Context context, int num, boolean primary) {
 		Integer[][] pool = primary ? PRIORITY_CATS : OTHER_CATS;
+		int id = primary ? num : num+PRIMARY_CHIPS;
 		ImageCell newView = new ImageCell(context);
 		RelativeLayout chip = new RelativeLayout(context);
 		LayoutInflater.from(context).inflate(R.layout.cat_chip, chip);
 
 		Integer[] cat_info = pool[num];
-		FoodCategory object = new FoodCategory(num, cat_info[ICON], cat_info[COLOR], cat_info[NAME], cat_info[SEARCH_NAME]);
+		FoodCategory object = new FoodCategory(id, cat_info[ICON], cat_info[COLOR], cat_info[NAME], cat_info[SEARCH_NAME]);
 		((ImageView) (chip.findViewById(R.id.chip_image))).setImageResource(object.getIcon());
 		((TextView) (chip.findViewById(R.id.chip_text))).setText(object.getName(context));
 
@@ -160,7 +162,7 @@ public class ChipFactory {
 		((TextView) (chip.findViewById(R.id.chip_text))).setBackgroundResource(colors[num % 5]);
 
 		newView.mEmpty = false;
-		newView.mCellNumber = num;
+		newView.mCellNumber = id;
 		newView.mChip = chip;
 		newView.setmCat(object);
 		newView.addView(chip);

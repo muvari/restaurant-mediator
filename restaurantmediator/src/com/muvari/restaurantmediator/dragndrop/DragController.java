@@ -107,9 +107,6 @@ public class DragController implements View.OnDragListener {
 				mDropSuccess = false;
 				if (mPresenter != null)
 					mPresenter.onDragStarted(mDragSource);
-				//ImageCell ic = (ImageCell) mDragSource;
-				// Log.d (DragActivity.LOG_NAME,
-				// "Drag started. mDragSource drawable: " + ic.getDrawable ());
 
 			}
 

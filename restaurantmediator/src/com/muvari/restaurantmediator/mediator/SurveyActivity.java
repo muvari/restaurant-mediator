@@ -33,16 +33,18 @@ public class SurveyActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.scrollable_activity);
-
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-
-		SurveyFragment fragment = new SurveyFragment();
-		fragmentTransaction.add(R.id.scrollview, fragment,
-				SurveyFragment.SURVEY_FRAGMENT_TAG);
-		fragmentTransaction.commit();
+		if (savedInstanceState == null) {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager
+					.beginTransaction();
+	
+			SurveyFragment fragment = new SurveyFragment();
+			fragmentTransaction.add(R.id.scrollview, fragment,
+					SurveyFragment.SURVEY_FRAGMENT_TAG);
+			fragmentTransaction.commit();
+		}
 
 	}
 
@@ -51,6 +53,8 @@ public class SurveyActivity extends FragmentActivity {
 			View.OnTouchListener {
 
 		public static final String SURVEY_FRAGMENT_TAG = "survey_fragment";
+		private static final String LIKES_ID = "likes_id";
+		private static final String DISLIKES_ID = "dislikes_id";
 
 		private DragController mDragController;
 		private Vibrator mVibrator;
@@ -60,6 +64,8 @@ public class SurveyActivity extends FragmentActivity {
 		private GridView dislikesGrid;
 		private GridView poolGrid;
 		private GridView expandGrid;
+		private int[] likes = {-1,-1,-1};
+		private int[] dislikes = {-1,-1,-1};
 		
 		private ToggleButton expandButton;
 
@@ -77,6 +83,10 @@ public class SurveyActivity extends FragmentActivity {
 			View view = inflater.inflate(R.layout.survey_fragment, container,
 					false);
 
+			if(savedInstanceState != null) {
+				likes = savedInstanceState.getIntArray(LIKES_ID);
+				dislikes = savedInstanceState.getIntArray(DISLIKES_ID);
+			}
 			// When a drag starts, we vibrate so the user gets some feedback.
 			mVibrator = (Vibrator) getActivity().getSystemService(
 					Context.VIBRATOR_SERVICE);
@@ -90,12 +100,13 @@ public class SurveyActivity extends FragmentActivity {
 			likesGrid = (GridView) view.findViewById(R.id.likes).findViewById(
 					R.id.image_grid_view);
 			likesGrid.setAdapter(new ImageCellAdapter(getActivity(),
-					mDragController));
+					mDragController, likes, true));
 
 			dislikesGrid = (GridView) view.findViewById(R.id.dislikes)
 					.findViewById(R.id.image_grid_view);
+			
 			dislikesGrid.setAdapter(new ImageCellAdapter(getActivity(),
-					mDragController));
+					mDragController, dislikes, false));
 
 			((TextView) view.findViewById(R.id.dislikes).findViewById(
 					R.id.title)).setText(R.string.dislikes_text);
@@ -103,11 +114,11 @@ public class SurveyActivity extends FragmentActivity {
 
 			poolGrid = (GridView) view.findViewById(R.id.cat_pool);
 			poolGrid.setAdapter(new ImageCellAdapter(getActivity(),
-					mDragController, 24));
+					mDragController, 24, likes, dislikes));
 			
 			expandGrid = (GridView) view.findViewById(R.id.cat_pool_expand);
 			expandGrid.setAdapter(new ImageCellAdapter(getActivity(),
-					mDragController, 96));
+					mDragController, 96, likes, dislikes));
 			
 			
 			OnClickListener expandListener = new OnClickListener() {
@@ -124,10 +135,43 @@ public class SurveyActivity extends FragmentActivity {
 			expandButton.setOnClickListener(expandListener);
 			
 			
-
+			if(savedInstanceState != null) {
+				if (savedInstanceState.getBoolean("EXPANDED")) {
+					expandPool();
+				}
+			}
 			return view;
 		}
 		
+		private void moveChip(ImageCell target, ImageCell source) {
+			target.onDrop(source);
+			source.onDropCompleted(target, true);
+		}
+			
+		@Override
+		public void onSaveInstanceState(Bundle outState) {
+			super.onSaveInstanceState(outState);
+			for (int i = 0; i < likesGrid.getChildCount(); i++) {
+				ImageCell cell = (ImageCell) likesGrid.getChildAt(i);
+				if (cell.mEmpty) {
+					likes[i] = -1;
+				} else {
+					likes[i] = cell.getmCat().getId();
+				}
+			}
+			for (int i = 0; i < dislikesGrid.getChildCount(); i++) {
+				ImageCell cell = (ImageCell) dislikesGrid.getChildAt(i);
+				if (cell.mEmpty) {
+					dislikes[i] = -1;
+				} else {
+					dislikes[i] = cell.getmCat().getId();
+				}
+			}
+			outState.putIntArray(LIKES_ID, likes);
+			outState.putIntArray(DISLIKES_ID, dislikes);
+			outState.putBoolean("EXPANDED", expandButton.isChecked());
+		}
+
 		public void expandPool() {
 			if (expandGrid.getVisibility() == View.GONE) {
 				expandGrid.setVisibility(View.VISIBLE);
@@ -164,7 +208,6 @@ public class SurveyActivity extends FragmentActivity {
 
 		@Override
 		public void onDropCompleted(DropTarget target, boolean success) {
-
 		}
 
 		@Override
@@ -173,19 +216,18 @@ public class SurveyActivity extends FragmentActivity {
 			GridView grid = (GridView) v.getParent();
 			ImageCellAdapter adapter = (ImageCellAdapter) grid.getAdapter();
 			if (adapter.isPool()) {
+				chip.onDragStarted();
 				for (int i = 0; i < likesGrid.getChildCount(); i++) {
 					ImageCell cell = (ImageCell) likesGrid.getChildAt(i);
 					if (cell.mEmpty) {
-						cell.onDrop(chip);
-						chip.onDropCompleted(cell, true);
+						moveChip(cell, chip);
 						return;
 					}
 				}
 				for (int i = 0; i < dislikesGrid.getChildCount(); i++) {
 					ImageCell cell = (ImageCell) dislikesGrid.getChildAt(i);
 					if (cell.mEmpty) {
-						cell.onDrop(chip);
-						chip.onDropCompleted(cell, true);
+						moveChip(cell, chip);
 						return;
 					}
 				}
@@ -195,16 +237,14 @@ public class SurveyActivity extends FragmentActivity {
 				for (int i = 0; i < poolGrid.getChildCount(); i++) {
 					ImageCell cell = (ImageCell) poolGrid.getChildAt(i);
 					if (cell.mEmpty) {
-						cell.onDrop(chip);
-						chip.onDropCompleted(cell, true);
+						moveChip(cell, chip);
 						return;
 					}
 				}
 				for (int i = 0; i < expandGrid.getChildCount(); i++) {
 					ImageCell cell = (ImageCell) expandGrid.getChildAt(i);
 					if (cell.mEmpty) {
-						cell.onDrop(chip);
-						chip.onDropCompleted(cell, true);
+						moveChip(cell, chip);
 						return;
 					}
 				}

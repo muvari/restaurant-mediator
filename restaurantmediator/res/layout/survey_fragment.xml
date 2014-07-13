@@ -179,8 +179,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_centerInParent="true"
-        android:textOn=""
-        android:textOff=""
+        android:textOn="SHOW LESS"
+        android:textOff="SHOW MORE"
         android:background="@android:color/transparent"
         android:drawableRight="@drawable/ic_action_expand"
         android:layout_below="@id/cat_pool"/>

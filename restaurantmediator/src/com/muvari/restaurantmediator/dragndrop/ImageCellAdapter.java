@@ -21,6 +21,8 @@ package com.muvari.restaurantmediator.dragndrop;
  *  Any problems are yours to fix. Wglxy.com is simply helping you get started. )
  */
 
+import java.util.Arrays;
+
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.ChipFactory;
 import com.muvari.restaurantmediator.mediator.SurveyActivity.SurveyFragment;
@@ -46,6 +48,8 @@ public class ImageCellAdapter extends BaseAdapter {
 	private View.OnDragListener mDragListener = null;
 	private int count = -1;
 	private boolean pool = false;
+	private boolean likeAdapter = true;
+	private int[] likes;
 
 	public boolean isPool() {
 		return pool;
@@ -60,16 +64,23 @@ public class ImageCellAdapter extends BaseAdapter {
 		mDragListener = null;
 	}
 
-	public ImageCellAdapter(Context c, View.OnDragListener l) {
+	public ImageCellAdapter(Context c, View.OnDragListener l, int[] likes, boolean likeAdapter) {
 		mContext = c;
 		mDragListener = l;
+		this.likes = likes;
+		this.likeAdapter = likeAdapter;
 	}
 	
-	public ImageCellAdapter(Context c, View.OnDragListener l, int count) {
+	public ImageCellAdapter(Context c, View.OnDragListener l, int count, int[] likes, int[] dislikes) {
 		mContext = c;
 		mDragListener = l;
 		this.count = count;
 		pool = true;
+		this.likes = likes;
+		
+		this.likes = new int[likes.length + dislikes.length];
+		System.arraycopy(likes, 0, this.likes, 0, likes.length);
+		System.arraycopy(dislikes, 0, this.likes, likes.length, dislikes.length);
 	}
 
 	public int getCount() {
@@ -93,25 +104,55 @@ public class ImageCellAdapter extends BaseAdapter {
 	 * @return ImageCell
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
+		//TODO: Use inheritance and override getView for different Adapters
 		ImageCell v = null;
 		if (pool) {
-			v = ChipFactory.createCatChip(mContext, position, count == 24 ? true : false);
+			if (count == ChipFactory.PRIMARY_CHIPS) {
+				if (contains(position)) {
+					v = createEmptyCell(position, convertView, parent);
+				} else {
+					v = ChipFactory.createCatChip(mContext, position, count == ChipFactory.PRIMARY_CHIPS ? true : false);
+				}
+			} else {
+				if (contains(position+ChipFactory.PRIMARY_CHIPS)) {
+					v = createEmptyCell(position, convertView, parent);
+				} else {
+					v = ChipFactory.createCatChip(mContext, position, count == ChipFactory.PRIMARY_CHIPS ? true : false);
+				}
+			}
 		} else {
-		
-		Resources res = mContext.getResources();
-		//int cellWidth = res.getDimensionPixelSize(R.dimen.grid_cell_width);
-		int cellHeight = res.getDimensionPixelSize(R.dimen.grid_cell_height);
-		//int cellPad = res.getDimensionPixelSize(R.dimen.grid_cell_padding);
-		mParentView = parent;
-
-		if (convertView == null) {
-			// If it's not recycled, create a new ImageCell.
-			v = new ImageCell(mContext);
-			v.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, cellHeight));
-			//v.setPadding(cellPad, cellPad, cellPad, cellPad);
-		} else {
-			v = (ImageCell) convertView;
+			
+			if (likes[position] >= 0) {
+				v = ChipFactory.createCatChip(mContext, likes[position], likes[position] < ChipFactory.PRIMARY_CHIPS ? true : false);
+			} else {
+				v = createEmptyCell(position, convertView, parent);
+			}
+			
 		}
+
+		FragmentActivity act = (FragmentActivity)mContext;
+		Fragment frag = act.getSupportFragmentManager().findFragmentByTag(SurveyFragment.SURVEY_FRAGMENT_TAG);
+		v.setOnTouchListener((View.OnTouchListener) frag);
+		v.setOnClickListener((View.OnClickListener) frag);
+		v.setOnLongClickListener((View.OnLongClickListener) frag);
+
+		return v;
+	}
+	
+	private boolean contains(int pos) {
+		for (int i = 0; i < likes.length; i++) {
+			if (likes[i] == pos)
+				return true;
+		}
+		return false;
+	}
+	private ImageCell createEmptyCell(int position, View convertView, ViewGroup parent) {
+		mParentView = parent;
+		ImageCell v = null;
+		Resources res = mContext.getResources();
+		int cellHeight = res.getDimensionPixelSize(R.dimen.grid_cell_height);
+		v = new ImageCell(mContext);
+		v.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, cellHeight));
 
 		v.mCellNumber = position;
 		v.mGrid = (GridView) mParentView;
@@ -119,18 +160,6 @@ public class ImageCellAdapter extends BaseAdapter {
 		v.mChip = null;
 		v.setOnDragListener(mDragListener);
 		v.setBackgroundResource(R.color.cell_empty);
-		}
-
-		// Set up to relay events to the activity.
-		// The activity decides which events trigger drag operations.
-		// Activities like the Android Launcher require a long click to get a
-		// drag operation started.
-		FragmentActivity act = (FragmentActivity)mContext;
-		Fragment frag = act.getSupportFragmentManager().findFragmentByTag(SurveyFragment.SURVEY_FRAGMENT_TAG);
-		v.setOnTouchListener((View.OnTouchListener) frag);
-		v.setOnClickListener((View.OnClickListener) frag);
-		v.setOnLongClickListener((View.OnLongClickListener) frag);
-
 		return v;
 	}
 

@@ -133,14 +133,7 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 			mEmpty = true;
 			if (mCellNumber >= 0) {
 				setBackgroundResource (mEmpty ? R.color.cell_empty : R.color.cell_filled);
-			} else {
-				// If the cell number is negative, it means we are interacting
-				// with a free-standing
-				// image cell. There is one of those. It is the place where an
-				// image is added when
-				// the user clicks "add image".
-				// At the conclusion of a drop, clear it.
-			}
+			} 
 			if (mChip != null) {
 				removeViewInLayout(mChip);
 				mChip = null;
