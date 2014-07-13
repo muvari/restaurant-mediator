@@ -4,7 +4,7 @@
 <color name="cell_empty">@android:color/darker_gray</color>
 <color name="cell_nearly_empty">#88993311</color>
 <color name="cell_filled">#FFA99033</color>
-<color name="cell_empty_hover">#ff00ff00</color>
+<color name="cell_empty_hover">@color/light_gray</color>
 <color name="cell_filled_hover">#ffaadddd</color>
 <color name="red">#ffff0000</color>
 <color name="green">#ff00ff00</color>

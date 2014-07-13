@@ -5,9 +5,12 @@ import com.muvari.restaurantmediator.dragndrop.DragController;
 import com.muvari.restaurantmediator.dragndrop.DragDropPresenter;
 import com.muvari.restaurantmediator.dragndrop.DragSource;
 import com.muvari.restaurantmediator.dragndrop.DropTarget;
+import com.muvari.restaurantmediator.dragndrop.ImageCell;
 import com.muvari.restaurantmediator.dragndrop.ImageCellAdapter;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -17,10 +20,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class SurveyActivity extends FragmentActivity {
 
@@ -28,25 +34,34 @@ public class SurveyActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.scrollable_activity);
-		
+
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+
 		SurveyFragment fragment = new SurveyFragment();
-		fragmentTransaction.add(R.id.scrollview, fragment, SurveyFragment.SURVEY_FRAGMENT_TAG);
+		fragmentTransaction.add(R.id.scrollview, fragment,
+				SurveyFragment.SURVEY_FRAGMENT_TAG);
 		fragmentTransaction.commit();
-		
+
 	}
 
 	public static class SurveyFragment extends Fragment implements
 			View.OnLongClickListener, View.OnClickListener, DragDropPresenter,
 			View.OnTouchListener {
-		
+
 		public static final String SURVEY_FRAGMENT_TAG = "survey_fragment";
 
 		private DragController mDragController;
 		private Vibrator mVibrator;
 		private static final int VIBRATE_DURATION = 35;
+
+		private GridView likesGrid;
+		private GridView dislikesGrid;
+		private GridView poolGrid;
+		private GridView expandGrid;
+		
+		private ToggleButton expandButton;
 
 		public SurveyFragment() {
 		}
@@ -59,8 +74,8 @@ public class SurveyActivity extends FragmentActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View view = inflater.inflate(R.layout.survey_fragment, container, false);
-			
+			View view = inflater.inflate(R.layout.survey_fragment, container,
+					false);
 
 			// When a drag starts, we vibrate so the user gets some feedback.
 			mVibrator = (Vibrator) getActivity().getSystemService(
@@ -72,29 +87,69 @@ public class SurveyActivity extends FragmentActivity {
 
 			// Set up the grid view with an ImageCellAdapter and have it use the
 			// DragController.
-			GridView gridView = (GridView) view.findViewById(R.id.likes).findViewById(R.id.image_grid_view);
-			gridView.setAdapter(new ImageCellAdapter(getActivity(),
+			likesGrid = (GridView) view.findViewById(R.id.likes).findViewById(
+					R.id.image_grid_view);
+			likesGrid.setAdapter(new ImageCellAdapter(getActivity(),
 					mDragController));
 
-			// Set up the grid view with an ImageCellAdapter and have it use the
-			// DragController.
-			GridView gridView2 = (GridView) view.findViewById(R.id.dislikes).findViewById(R.id.image_grid_view);
-			gridView2.setAdapter(new ImageCellAdapter(getActivity(),
+			dislikesGrid = (GridView) view.findViewById(R.id.dislikes)
+					.findViewById(R.id.image_grid_view);
+			dislikesGrid.setAdapter(new ImageCellAdapter(getActivity(),
 					mDragController));
-			
-			((TextView) view.findViewById(R.id.dislikes).findViewById(R.id.title)).setText(R.string.dislikes_text);;
 
-			GridView catPool = (GridView) view.findViewById(
-					R.id.cat_pool);
-			catPool.setAdapter(new ImageCellAdapter(getActivity(),
+			((TextView) view.findViewById(R.id.dislikes).findViewById(
+					R.id.title)).setText(R.string.dislikes_text);
+			;
+
+			poolGrid = (GridView) view.findViewById(R.id.cat_pool);
+			poolGrid.setAdapter(new ImageCellAdapter(getActivity(),
 					mDragController, 24));
 			
+			expandGrid = (GridView) view.findViewById(R.id.cat_pool_expand);
+			expandGrid.setAdapter(new ImageCellAdapter(getActivity(),
+					mDragController, 24));
+			
+			
+			OnClickListener expandListener = new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					expandPool();
+				}
+				
+			};
+			expandButton = (ToggleButton) view.findViewById(R.id.expand_button);
+			TextView text = (TextView) view.findViewById(R.id.cat_pool_text);
+			text.setOnClickListener(expandListener);
+			expandButton.setOnClickListener(expandListener);
+			
+			
+
 			return view;
+		}
+		
+		public void expandPool() {
+			if (expandGrid.getVisibility() == View.GONE) {
+				expandGrid.setVisibility(View.VISIBLE);
+				//CommonMethods.expand(expandGrid);
+				RelativeLayout.LayoutParams p = ((RelativeLayout.LayoutParams)expandButton.getLayoutParams());
+				p.addRule(RelativeLayout.BELOW, R.id.cat_pool_expand);
+				expandButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_collapse, 0);
+			} else {
+				//CommonMethods.collapse(expandGrid);
+				expandGrid.setVisibility(View.GONE);
+				RelativeLayout.LayoutParams p = ((RelativeLayout.LayoutParams)expandButton.getLayoutParams());
+				p.addRule(RelativeLayout.BELOW, R.id.cat_pool);
+				expandButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_expand, 0);
+			}
 		}
 
 		@Override
 		public boolean onTouch(View arg0, MotionEvent arg1) {
-			return false;
+		       if (getActivity().findViewById(R.id.name_edit).hasFocus()) {
+		    	   getActivity().findViewById(R.id.name_edit).clearFocus();
+		        }
+		        return false;
 		}
 
 		@Override
@@ -113,8 +168,47 @@ public class SurveyActivity extends FragmentActivity {
 		}
 
 		@Override
-		public void onClick(View arg0) {
-			//toast("test");
+		public void onClick(View v) {
+			ImageCell chip = (ImageCell) v;
+			GridView grid = (GridView) v.getParent();
+			ImageCellAdapter adapter = (ImageCellAdapter) grid.getAdapter();
+			if (adapter.isPool()) {
+				for (int i = 0; i < likesGrid.getChildCount(); i++) {
+					ImageCell cell = (ImageCell) likesGrid.getChildAt(i);
+					if (cell.mEmpty) {
+						cell.onDrop(chip);
+						chip.onDropCompleted(cell, true);
+						return;
+					}
+				}
+				for (int i = 0; i < dislikesGrid.getChildCount(); i++) {
+					ImageCell cell = (ImageCell) dislikesGrid.getChildAt(i);
+					if (cell.mEmpty) {
+						cell.onDrop(chip);
+						chip.onDropCompleted(cell, true);
+						return;
+					}
+				}
+				toast("Choices filled");
+
+			} else {
+				for (int i = 0; i < poolGrid.getChildCount(); i++) {
+					ImageCell cell = (ImageCell) poolGrid.getChildAt(i);
+					if (cell.mEmpty) {
+						cell.onDrop(chip);
+						chip.onDropCompleted(cell, true);
+						return;
+					}
+				}
+				for (int i = 0; i < expandGrid.getChildCount(); i++) {
+					ImageCell cell = (ImageCell) expandGrid.getChildAt(i);
+					if (cell.mEmpty) {
+						cell.onDrop(chip);
+						chip.onDropCompleted(cell, true);
+						return;
+					}
+				}
+			}
 		}
 
 		@Override

@@ -159,6 +159,38 @@
         android:paddingTop="@dimen/section_padding"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/grid_cell_spacing" />
+    
+    <GridView
+        android:id="@+id/cat_pool_expand"
+        android:layout_width="wrap_content"
+        android:layout_height="350dp"
+        android:layout_below="@+id/cat_pool"
+        android:gravity="center"
+        android:horizontalSpacing="@dimen/grid_cell_spacing"
+        android:numColumns="3"
+        android:paddingTop="@dimen/section_padding"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/grid_cell_spacing" />
+    
+        <ToggleButton
+            android:id="@+id/expand_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textOn=""
+        android:textOff=""
+        android:background="@android:color/transparent"
+        android:drawableRight="@drawable/ic_action_expand"
+        android:layout_below="@id/cat_pool"/>
+    
+        <View
+        android:id="@+id/sep6"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/expand_button"
+        android:background="@android:color/darker_gray"
+        android:paddingTop="@dimen/section_padding" />
 
         <Button
             android:id="@+id/done_button"
@@ -166,7 +198,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_centerInParent="true"
-        android:layout_below="@id/cat_pool"
+        android:layout_below="@id/sep6"
         android:background="@color/light_blue"
         android:textColor="@android:color/white"
         android:layout_marginTop="@dimen/section_padding" 

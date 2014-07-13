@@ -47,6 +47,14 @@ public class ImageCellAdapter extends BaseAdapter {
 	private int count = -1;
 	private boolean pool = false;
 
+	public boolean isPool() {
+		return pool;
+	}
+
+	public void setPool(boolean pool) {
+		this.pool = pool;
+	}
+
 	public ImageCellAdapter(Context c) {
 		mContext = c;
 		mDragListener = null;
