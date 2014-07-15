@@ -217,7 +217,7 @@ public class DragController implements View.OnDragListener {
 		ClipData dragData = ds.clipDataForDragDrop();
 		View.DragShadowBuilder shadowView = new View.DragShadowBuilder(v);
 		v.startDrag(dragData, shadowView, null, 0);
-		return true;
+  		return true;
 	}
 
 }

@@ -7,10 +7,8 @@ import com.muvari.restaurantmediator.dragndrop.DragSource;
 import com.muvari.restaurantmediator.dragndrop.DropTarget;
 import com.muvari.restaurantmediator.dragndrop.ImageCell;
 import com.muvari.restaurantmediator.dragndrop.ImageCellAdapter;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -188,6 +186,7 @@ public class SurveyActivity extends FragmentActivity {
 			}
 		}
 
+		@SuppressLint("ClickableViewAccessibility")
 		@Override
 		public boolean onTouch(View arg0, MotionEvent arg1) {
 		       if (getActivity().findViewById(R.id.name_edit).hasFocus()) {
@@ -216,7 +215,6 @@ public class SurveyActivity extends FragmentActivity {
 			GridView grid = (GridView) v.getParent();
 			ImageCellAdapter adapter = (ImageCellAdapter) grid.getAdapter();
 			if (adapter.isPool()) {
-				chip.onDragStarted();
 				for (int i = 0; i < likesGrid.getChildCount(); i++) {
 					ImageCell cell = (ImageCell) likesGrid.getChildAt(i);
 					if (cell.mEmpty) {

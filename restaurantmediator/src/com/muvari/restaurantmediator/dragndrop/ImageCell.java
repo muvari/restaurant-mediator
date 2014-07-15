@@ -29,7 +29,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 
@@ -88,8 +87,6 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 
 	public ClipData clipDataForDragDrop() {
 		return null;
-		// eventually, create something with the id of the image and the cell
-		// number
 	}
 
 	/**
@@ -131,20 +128,14 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 					"ImageCell.onDropCompleted - clearing source: "
 							+ mCellNumber);
 			mEmpty = true;
-			if (mCellNumber >= 0) {
-				setBackgroundResource (mEmpty ? R.color.cell_empty : R.color.cell_filled);
-			} 
+			setBackgroundResource (mEmpty ? R.color.cell_empty : R.color.cell_filled);
 			if (mChip != null) {
 				removeViewInLayout(mChip);
 				mChip = null;
 				mCat = null;
 			}
 		} else {
-			// On the failure case, reset the background color in case it is
-			// still set to the hover color.
-			if (mCellNumber >= 0) {
-				setBackgroundResource(mEmpty ? R.color.cell_empty : R.color.cell_filled);
-			}
+			setBackgroundResource(mEmpty ? R.color.cell_empty : R.color.cell_filled);
 		}
 
 	}
@@ -188,8 +179,6 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 		// Mark the cell so it is no longer empty.
 		mEmpty = false;
 		ImageCell sourceView = (ImageCell) source;
-		if (sourceView.getParent() instanceof FrameLayout) 
-			((ViewGroup) sourceView.getParent()).removeViewInLayout(sourceView);
 		if (sourceView.mChip != null) {
 			sourceView.removeViewInLayout(sourceView.mChip);
 		}

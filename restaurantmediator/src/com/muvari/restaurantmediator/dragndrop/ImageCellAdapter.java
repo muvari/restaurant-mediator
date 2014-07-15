@@ -21,7 +21,6 @@ package com.muvari.restaurantmediator.dragndrop;
  *  Any problems are yours to fix. Wglxy.com is simply helping you get started. )
  */
 
-import java.util.Arrays;
 
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.ChipFactory;
