@@ -133,7 +133,6 @@ public class DragController implements View.OnDragListener {
 			break;
 
 		case DragEvent.ACTION_DRAG_ENTERED:
-			Log.d(DragActivity.LOG_NAME, "DragController.onDrag - entered view");
 			if (isDropTarget) {
 				target.onDragEnter(mDragSource);
 				mDropTarget = target;
@@ -143,7 +142,6 @@ public class DragController implements View.OnDragListener {
 			break;
 
 		case DragEvent.ACTION_DRAG_EXITED:
-			Log.d(DragActivity.LOG_NAME, "DragController.onDrag - exited view");
 			if (isDropTarget) {
 				mDropTarget = null;
 				target.onDragExit(mDragSource);
@@ -153,7 +151,6 @@ public class DragController implements View.OnDragListener {
 			break;
 
 		case DragEvent.ACTION_DROP:
-			Log.d(DragActivity.LOG_NAME, "DragController.onDrag - dropped");
 			if (isDropTarget) {
 				if (target.allowDrop(mDragSource)) {
 					target.onDrop(mDragSource);
@@ -166,13 +163,10 @@ public class DragController implements View.OnDragListener {
 			break;
 
 		case DragEvent.ACTION_DRAG_ENDED:
-			Log.d(DragActivity.LOG_NAME, "DragController.onDrag - ended");
 			if (mDragging) {
 				// At the end of the drag, do two things.
 				// (1) Inform the drag source that the drag is over; (2) Inform
 				// the presenter.
-				Log.d(DragActivity.LOG_NAME,
-						"DragController.onDrag DragSource: " + mDragSource);
 				if (mDragSource != null)
 					mDragSource.onDropCompleted(mDropTarget, mDropSuccess);
 				if (mPresenter != null)

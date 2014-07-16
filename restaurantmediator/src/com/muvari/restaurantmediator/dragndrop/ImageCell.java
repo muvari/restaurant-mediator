@@ -124,9 +124,6 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 		// If the drop succeeds, the image has moved elsewhere.
 		// So clear the image cell.
 		if (success) {
-			Log.d(DragActivity.LOG_NAME,
-					"ImageCell.onDropCompleted - clearing source: "
-							+ mCellNumber);
 			mEmpty = true;
 			setBackgroundResource (mEmpty ? R.color.cell_empty : R.color.cell_filled);
 			if (mChip != null) {
@@ -173,9 +170,6 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 	 */
 
 	public void onDrop(DragSource source) {
-		Log.d(DragActivity.LOG_NAME, "ImageCell.onDrop: " + mCellNumber
-				+ " source: " + source);
-
 		// Mark the cell so it is no longer empty.
 		mEmpty = false;
 		ImageCell sourceView = (ImageCell) source;
