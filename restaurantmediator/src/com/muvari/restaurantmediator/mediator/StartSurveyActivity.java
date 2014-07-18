@@ -77,11 +77,15 @@ public class StartSurveyActivity extends FragmentActivity {
 
 				@Override
 				public void onClick(View v) {
+					if (addressText.getText().toString().length() < 5) {
+						addressText.setError("Please enter a valid address");
+					} else {
 					Intent intent = new Intent(getActivity(), SurveyActivity.class);
 					intent.putExtra(ADDRESS_TAG, addressText.getText().toString());
 					intent.putExtra(NUM_PEOPLE_TAG, picker.getValue());
 					intent.putExtra(CUR_PERSON_TAG, 1);
 					startActivity(intent);
+					}
 				}
 				
 			});
