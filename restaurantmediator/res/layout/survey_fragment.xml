@@ -8,7 +8,6 @@
         android:id="@+id/rating_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:fontFamily="sans-serif-light"
@@ -47,34 +46,44 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textStyle="bold" />
 
-<RadioGroup
-    android:layout_width="fill_parent"
-    android:id="@+id/distance_bar"
-    android:layout_below="@id/distance_text"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="horizontal">
-    <RadioButton android:id="@+id/one"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/distance_bar"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="1"/>
-    <RadioButton android:id="@+id/two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5"/>
-        <RadioButton android:id="@+id/three"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="10"/>
-            <RadioButton android:id="@+id/four"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="15"/>
-                <RadioButton android:id="@+id/five"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="25"/>
-</RadioGroup>
+        android:layout_below="@id/distance_text"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1" />
+
+        <RadioButton
+            android:id="@+id/two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5" />
+
+        <RadioButton
+            android:id="@+id/three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10" />
+
+        <RadioButton
+            android:id="@+id/four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15" />
+
+        <RadioButton
+            android:id="@+id/five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25" />
+    </RadioGroup>
 
     <View
         android:id="@+id/sep3"
@@ -143,33 +152,33 @@
         android:paddingTop="@dimen/section_padding"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/grid_cell_spacing" />
-    
+
     <GridView
         android:id="@+id/cat_pool_expand"
         android:layout_width="wrap_content"
         android:layout_height="1360dp"
-        android:visibility="gone"
         android:layout_below="@+id/cat_pool"
         android:gravity="center"
         android:horizontalSpacing="@dimen/grid_cell_spacing"
         android:numColumns="3"
         android:paddingTop="@dimen/section_padding"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/grid_cell_spacing" />
-    
-        <ToggleButton
-            android:id="@+id/expand_button"
+        android:verticalSpacing="@dimen/grid_cell_spacing"
+        android:visibility="gone" />
+
+    <ToggleButton
+        android:id="@+id/expand_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_below="@id/cat_pool"
         android:layout_centerInParent="true"
-        android:textOn="SHOW LESS"
-        android:textOff="SHOW MORE"
         android:background="@android:color/transparent"
         android:drawableRight="@drawable/ic_action_expand"
-        android:layout_below="@id/cat_pool"/>
-    
-        <View
+        android:gravity="center"
+        android:textOff="SHOW MORE"
+        android:textOn="SHOW LESS" />
+
+    <View
         android:id="@+id/sep6"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
@@ -177,16 +186,16 @@
         android:background="@android:color/darker_gray"
         android:paddingTop="@dimen/section_padding" />
 
-        <Button
-            android:id="@+id/done_button"
+    <Button
+        android:id="@+id/done_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_centerInParent="true"
         android:layout_below="@id/sep6"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/section_padding"
         android:background="@color/light_blue"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="@dimen/section_padding" 
-        android:text="DONE"/>
+        android:gravity="center"
+        android:text="DONE"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

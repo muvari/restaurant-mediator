@@ -1,9 +1,18 @@
 package com.muvari.restaurantmediator.mediator;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.SurveyActivity.SurveyFragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -78,7 +87,31 @@ public class StartSurveyActivity extends FragmentActivity {
 				
 			});
 			
+			Button detect = (Button)view.findViewById(R.id.detect_location);
+			detect.setOnClickListener(new OnClickListener() {
 
+				@Override
+				public void onClick(View v) {
+					LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+					String locationProvider = LocationManager.NETWORK_PROVIDER;
+
+					Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+					
+					Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+					List<Address> addresses;
+					try {
+						addresses = geocoder.getFromLocation(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), 1);
+						addressText.setText(addresses.get(0).getAddressLine(0) + " " + addresses.get(0).getAddressLine(1));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+			});
+			
+			
 			return view;
 		}
 	}
