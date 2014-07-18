@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 
 import com.muvari.restaurantmediator.R;
-import com.muvari.restaurantmediator.mediator.SurveyActivity.SurveyFragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +43,7 @@ public class StartSurveyActivity extends FragmentActivity {
 			fragmentTransaction.commit();
 		}
 
-		setTitle("Start a New Decision");
+		setTitle("Choose a Restaurant");
 	}
 	
 	public static class StartSurveyFragment extends Fragment {

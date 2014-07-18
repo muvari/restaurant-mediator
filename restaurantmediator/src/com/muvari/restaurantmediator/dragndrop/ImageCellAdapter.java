@@ -24,7 +24,7 @@ package com.muvari.restaurantmediator.dragndrop;
 
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.ChipFactory;
-import com.muvari.restaurantmediator.mediator.SurveyActivity.SurveyFragment;
+import com.muvari.restaurantmediator.mediator.SurveyFragment;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -49,6 +49,7 @@ public class ImageCellAdapter extends BaseAdapter {
 	private boolean pool = false;
 	private boolean likeAdapter = true;
 	private int[] likes;
+	private SurveyFragment fragment;
 
 	public boolean isPool() {
 		return pool;
@@ -63,19 +64,21 @@ public class ImageCellAdapter extends BaseAdapter {
 		mDragListener = null;
 	}
 
-	public ImageCellAdapter(Context c, View.OnDragListener l, int[] likes, boolean likeAdapter) {
+	public ImageCellAdapter(Context c, View.OnDragListener l, int[] likes, boolean likeAdapter, SurveyFragment frag) {
 		mContext = c;
 		mDragListener = l;
 		this.likes = likes;
 		this.likeAdapter = likeAdapter;
+		this.fragment = frag;
 	}
 	
-	public ImageCellAdapter(Context c, View.OnDragListener l, int count, int[] likes, int[] dislikes) {
+	public ImageCellAdapter(Context c, View.OnDragListener l, int count, int[] likes, int[] dislikes, SurveyFragment frag) {
 		mContext = c;
 		mDragListener = l;
 		this.count = count;
 		pool = true;
 		this.likes = likes;
+		this.fragment = frag;
 		
 		this.likes = new int[likes.length + dislikes.length];
 		System.arraycopy(likes, 0, this.likes, 0, likes.length);
@@ -133,11 +136,9 @@ public class ImageCellAdapter extends BaseAdapter {
 			
 		}
 
-		FragmentActivity act = (FragmentActivity)mContext;
-		Fragment frag = act.getSupportFragmentManager().findFragmentByTag(SurveyFragment.SURVEY_FRAGMENT_TAG);
-		v.setOnTouchListener((View.OnTouchListener) frag);
-		v.setOnClickListener((View.OnClickListener) frag);
-		v.setOnLongClickListener((View.OnLongClickListener) frag);
+		v.setOnTouchListener(fragment);
+		v.setOnClickListener(fragment);
+		v.setOnLongClickListener(fragment);
 
 		return v;
 	}
