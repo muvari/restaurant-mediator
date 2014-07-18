@@ -2,6 +2,7 @@ package com.muvari.restaurantmediator.mediator;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,9 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +44,8 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 	private GridView dislikesGrid;
 	private GridView poolGrid;
 	private GridView expandGrid;
+	private RatingBar ratingBar;
+	private RadioGroup distance;
 	private int[] likes = { -1, -1, -1 };
 	private int[] dislikes = { -1, -1, -1 };
 
@@ -62,6 +68,9 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 		// This activity will listen for drag-drop events.
 		// The listener used is a DragController. Set it up.
 		mDragController = new DragController(this);
+
+		ratingBar = (RatingBar) view.findViewById(R.id.rating_bar);
+		distance = (RadioGroup) view.findViewById(R.id.distance_bar);
 
 		// Set up the grid view with an ImageCellAdapter and have it use the
 		// DragController.
@@ -89,7 +98,7 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 				SurveyActivity act = (SurveyActivity) getActivity();
 				ViewPager pager = act.getPager();
 				if (pager.getCurrentItem() == pager.getChildCount()) {
-					//super.onBackPressed();
+					getActivity().startActivity(((SurveyActivity) getActivity()).generateSummaryIntent());
 				} else {
 					pager.setCurrentItem(pager.getCurrentItem() + 1);
 				}
@@ -122,9 +131,18 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 		source.onDropCompleted(target, true);
 	}
 
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		setLikes();
+		setDislikes();
+		outState.putIntArray(LIKES_ID, likes);
+		outState.putIntArray(DISLIKES_ID, dislikes);
+		outState.putBoolean("EXPANDED", expandButton.isChecked());
+	}
+	
+	private void setLikes() {
 		for (int i = 0; i < likesGrid.getChildCount(); i++) {
 			ImageCell cell = (ImageCell) likesGrid.getChildAt(i);
 			if (cell.mEmpty) {
@@ -133,17 +151,38 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 				likes[i] = cell.getmCat().getId();
 			}
 		}
-		for (int i = 0; i < dislikesGrid.getChildCount(); i++) {
-			ImageCell cell = (ImageCell) dislikesGrid.getChildAt(i);
-			if (cell.mEmpty) {
-				dislikes[i] = -1;
-			} else {
-				dislikes[i] = cell.getmCat().getId();
-			}
+
+	}
+	
+	private void setDislikes() {
+	for (int i = 0; i < dislikesGrid.getChildCount(); i++) {
+		ImageCell cell = (ImageCell) dislikesGrid.getChildAt(i);
+		if (cell.mEmpty) {
+			dislikes[i] = -1;
+		} else {
+			dislikes[i] = cell.getmCat().getId();
 		}
-		outState.putIntArray(LIKES_ID, likes);
-		outState.putIntArray(DISLIKES_ID, dislikes);
-		outState.putBoolean("EXPANDED", expandButton.isChecked());
+	}
+	}
+	
+	public int[] getLikes() {
+		setLikes();
+		return likes;
+	}
+	
+	public int[] getDislikes() {
+		setDislikes();
+		return dislikes;
+	}
+	
+	public float getRating() {
+		return ratingBar.getRating();
+	}
+	
+	public int getDistance() {
+		int selectedId = distance.getCheckedRadioButtonId();
+		RadioButton button = (RadioButton) distance.findViewById(selectedId);
+		return Integer.parseInt(button.getText().toString());
 	}
 
 	public void expandPool() {
