@@ -3,6 +3,7 @@
     android:id="@+id/scrollview"
     android:layout_width="fill_parent"
     android:fillViewport="true"
+    android:background="@color/lighter_gray"
     android:layout_height="fill_parent" >
 
 

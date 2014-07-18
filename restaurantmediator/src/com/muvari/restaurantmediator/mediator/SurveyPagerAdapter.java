@@ -22,4 +22,11 @@ public class SurveyPagerAdapter extends FragmentStatePagerAdapter {
 		return count;
 	}
 
+	@Override
+	public CharSequence getPageTitle(int position) {
+		return "Person " + (position+1);
+	}
+	
+	
+
 }

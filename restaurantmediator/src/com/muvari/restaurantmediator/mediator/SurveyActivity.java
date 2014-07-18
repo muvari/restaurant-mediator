@@ -2,6 +2,8 @@ package com.muvari.restaurantmediator.mediator;
 
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.StartSurveyActivity.StartSurveyFragment;
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,7 +27,13 @@ public class SurveyActivity extends FragmentActivity {
 		mPagerAdapter = new SurveyPagerAdapter(getSupportFragmentManager(), getIntent().getIntExtra(StartSurveyFragment.NUM_PEOPLE_TAG, 1));
 		mPager.setAdapter(mPagerAdapter);
 
-		setTitle("Person " + getIntent().getIntExtra(StartSurveyFragment.CUR_PERSON_TAG, 1));
+		//Bind the title indicator to the adapter
+		TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.titles);
+		titleIndicator.setViewPager(mPager);
+		titleIndicator.setSelectedColor(getResources().getColor(android.R.color.black));
+		titleIndicator.setTextColor(getResources().getColor(android.R.color.black));
+
+		setTitle("Help me Decide");
 	}
 
 	@Override
