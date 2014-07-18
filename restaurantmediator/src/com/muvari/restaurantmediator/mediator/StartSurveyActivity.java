@@ -18,8 +18,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,8 +45,6 @@ public class StartSurveyActivity extends FragmentActivity {
 					StartSurveyFragment.START_FRAGMENT_TAG);
 			fragmentTransaction.commit();
 		}
-
-		setTitle("Choose a Restaurant");
 	}
 	
 	public static class StartSurveyFragment extends Fragment {
@@ -71,6 +72,16 @@ public class StartSurveyActivity extends FragmentActivity {
 			picker.setValue(2);
 			
 			addressText = (EditText)view.findViewById(R.id.editText1);
+			
+			addressText.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					addressText.setError(null);
+					return false;
+				}
+
+			});
 			
 			Button start = (Button)view.findViewById(R.id.start_button);
 			start.setOnClickListener(new OnClickListener() {

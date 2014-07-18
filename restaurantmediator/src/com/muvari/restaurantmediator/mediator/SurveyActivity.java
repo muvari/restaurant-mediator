@@ -32,8 +32,6 @@ public class SurveyActivity extends FragmentActivity {
 		titleIndicator.setViewPager(mPager);
 		titleIndicator.setSelectedColor(getResources().getColor(android.R.color.black));
 		titleIndicator.setTextColor(getResources().getColor(android.R.color.black));
-
-		setTitle("Help me Decide");
 	}
 
 	@Override
@@ -43,6 +41,10 @@ public class SurveyActivity extends FragmentActivity {
 		} else {
 			mPager.setCurrentItem(mPager.getCurrentItem() - 1);
 		}
+	}
+	
+	public ViewPager getPager() {
+		return mPager;
 	}
 
 }

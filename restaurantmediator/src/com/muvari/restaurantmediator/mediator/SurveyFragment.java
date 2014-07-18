@@ -5,11 +5,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -78,7 +80,22 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 
 		expandGrid = (GridView) view.findViewById(R.id.cat_pool_expand);
 		expandGrid.setAdapter(new ImageCellAdapter(getActivity(), mDragController, 96, likes, dislikes, this));
+		
+		Button doneButton = (Button) view.findViewById(R.id.done_button);
+		doneButton.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				SurveyActivity act = (SurveyActivity) getActivity();
+				ViewPager pager = act.getPager();
+				if (pager.getCurrentItem() == pager.getChildCount()) {
+					//super.onBackPressed();
+				} else {
+					pager.setCurrentItem(pager.getCurrentItem() + 1);
+				}
+			}
+			
+		});
 		OnClickListener expandListener = new OnClickListener() {
 
 			@Override
