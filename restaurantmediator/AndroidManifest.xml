@@ -17,12 +17,12 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.muvari.restaurantmediator.mediator.SurveyActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.muvari.restaurantmediator.mediator.StartSurveyActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

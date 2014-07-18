@@ -3,7 +3,7 @@
     <string name="app_name">Restaurant Mediator</string>
     <string name="person_name">Name: </string>
     <string name="rating_string">How bad of a restaurant are you willing to go to?</string>
-    <string name="distance_string">How far are you willing to travel?</string>
+    <string name="distance_string">How far are you willing to travel (miles)?</string>
     <string name="pool_string">Tap on or drag/drop food types from here</string>
     <string name="likes_text">What are you in the mood for? (up to 3)</string>
     <string name="dislikes_text">What are you NOT in the mood for? (up to 3)</string>

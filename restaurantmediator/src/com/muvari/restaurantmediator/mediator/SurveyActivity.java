@@ -7,6 +7,8 @@ import com.muvari.restaurantmediator.dragndrop.DragSource;
 import com.muvari.restaurantmediator.dragndrop.DropTarget;
 import com.muvari.restaurantmediator.dragndrop.ImageCell;
 import com.muvari.restaurantmediator.dragndrop.ImageCellAdapter;
+import com.muvari.restaurantmediator.mediator.StartSurveyActivity.StartSurveyFragment;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -44,6 +46,7 @@ public class SurveyActivity extends FragmentActivity {
 			fragmentTransaction.commit();
 		}
 
+		setTitle("Person " + getIntent().getIntExtra(StartSurveyFragment.CUR_PERSON_TAG, 1));
 	}
 
 	public static class SurveyFragment extends Fragment implements
@@ -184,9 +187,6 @@ public class SurveyActivity extends FragmentActivity {
 		@SuppressLint("ClickableViewAccessibility")
 		@Override
 		public boolean onTouch(View arg0, MotionEvent arg1) {
-		       if (getActivity().findViewById(R.id.name_edit).hasFocus()) {
-		    	   getActivity().findViewById(R.id.name_edit).clearFocus();
-		        }
 		        return false;
 		}
 

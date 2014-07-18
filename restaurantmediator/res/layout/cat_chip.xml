@@ -18,6 +18,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:fontFamily="sans-serif-light"  
+        android:singleLine="true"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:layout_toRightOf="@id/chip_image"

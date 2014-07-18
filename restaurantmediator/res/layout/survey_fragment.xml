@@ -4,49 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/name_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:enabled="false"
-        android:fontFamily="sans-serif"
-        android:paddingTop="@dimen/section_padding"
-        android:text="Person 1" />
-
-    <TextView
-        android:id="@+id/name_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/rating_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/name_edit"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:paddingLeft="8dp"
-        android:text="@string/person_name"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" />
-
-    <View
-        android:id="@+id/sep1"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/name_edit"
-        android:background="@android:color/darker_gray"
-        android:paddingTop="@dimen/section_padding" />
-
     <TextView
         android:id="@+id/rating_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/sep1"
+        android:layout_alignParentTop="true"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:paddingTop="@dimen/section_padding"
@@ -83,14 +47,34 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textStyle="bold" />
 
-    <RatingBar
-        android:id="@+id/distance_bar"
+<RadioGroup
+    android:layout_width="fill_parent"
+    android:id="@+id/distance_bar"
+    android:layout_below="@id/distance_text"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+    <RadioButton android:id="@+id/one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/distance_text"
-        android:layout_centerHorizontal="true"
-        android:numStars="5"
-        android:stepSize="1" />
+        android:text="1"/>
+    <RadioButton android:id="@+id/two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"/>
+        <RadioButton android:id="@+id/three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"/>
+            <RadioButton android:id="@+id/four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15"/>
+                <RadioButton android:id="@+id/five"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25"/>
+</RadioGroup>
 
     <View
         android:id="@+id/sep3"
