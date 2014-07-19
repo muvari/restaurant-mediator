@@ -23,6 +23,8 @@ import android.util.Log;
 /**
  * Code sample for accessing the Yelp API V2.
  * 
+ * edited by muvari
+ * 
  * This program demonstrates the capability of the Yelp API version 2.0 by using
  * the Search API to query for businesses by a search term and location, and the
  * Business API to query additional information about the top result from the
@@ -150,16 +152,21 @@ public class YelpAPI {
 		}
 	}
 
+	/**
+	 * AsyncTaskLoader to query Yelp APIs
+	 * @author Mark
+	 *
+	 */
 	public static class SimpleDBLoader extends AsyncTaskLoader<JSONObject> {
 
-		Context context;
-		String term;
-		List<Integer> likes;
-		List<String> dislikeNames;
-		List<Integer> dislikes;
-		String rad;
-		String loc;
-		float rat;
+		private Context context;
+		private String term; //Extra query
+		private List<Integer> likes; //All of the liked category ids
+		private List<String> dislikeNames; //The list of disliked food categories
+		private List<Integer> dislikes; //List of disliked food ids
+		private String rad; //Radius
+		private String loc; //Location
+		private float rat; //Rating
 
 		public SimpleDBLoader(Context context) {
 			super(context);
@@ -177,19 +184,32 @@ public class YelpAPI {
 			this.rat = rat;
 		}
 
+		/**
+		 * Start the search for a restaurant
+		 */
 		@Override
 		public JSONObject loadInBackground() {
 			YelpAPI yelpApi = new YelpAPI(RRPC.CONSUMER_KEY, RRPC.CONSUMER_SECRET, RRPC.TOKEN, RRPC.TOKEN_SECRET);
 			return queryApi(yelpApi);
 		}
 
+		/**
+		 * Recursive query function that keeps querying until a valid match is met
+		 * 
+		 * @param yelpApi
+		 * @return
+		 */
 		private JSONObject queryApi(YelpAPI yelpApi) {
 			String cuisine = determineCuisine(context, likes);
+			
+			//Base Case: End of List
 			if (cuisine.equals(""))
 				return new JSONObject();
 
+			//Search the top of the cuisine queue
 			String searchResponseJSON = yelpApi.searchForBusinessesByLocation(term, cuisine, rad, loc);
 
+			//Parse the response
 			JSONParser parser = new JSONParser();
 			JSONObject response = null;
 			try {
@@ -199,14 +219,18 @@ public class YelpAPI {
 				Log.i("test", searchResponseJSON);
 			}
 
+			
 			JSONArray businesses = (JSONArray) response.get("businesses");
 			if (businesses != null && businesses.size() > 0) {
+				//Loop through the results from the query
 				for (int i = 0; i < businesses.size(); i++) {
 
 					JSONObject bus = (JSONObject) businesses.get(i);
+					//If the business is closed, or rated too poorly, move on
 					if (!(Boolean) bus.get("is_closed") || ((Float)bus.get("rating")).floatValue() < rat) {
 						JSONArray cats = (JSONArray) bus.get("categories");
 						boolean disliked = false;
+						//Make sure that none of the categories are disliked by any user
 						for (int j = 0; j < cats.size(); j++) {
 							if (dislikeNames.contains(cats.get(j))) {
 								disliked = true;
@@ -218,11 +242,20 @@ public class YelpAPI {
 				}
 			} 
 			
+			//If we got here, it means none of the results in the query were valid, so we need to 
+			//create a new query and try again with the next cuisine in the list
 			likes.remove(0);
 			return queryApi(yelpApi);
 			
 		}
 
+		/**
+		 * Gets the next cuisine in the sorted list
+		 * 
+		 * @param context
+		 * @param sortedIds
+		 * @return
+		 */
 		private String determineCuisine(Context context, List<Integer> sortedIds) {
 			String cuisine = "";
 			if (sortedIds.size() == 0)

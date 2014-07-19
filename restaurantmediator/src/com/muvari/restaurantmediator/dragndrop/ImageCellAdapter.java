@@ -28,8 +28,6 @@ import com.muvari.restaurantmediator.mediator.SurveyFragment;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -50,14 +48,6 @@ public class ImageCellAdapter extends BaseAdapter {
 	private boolean likeAdapter = true;
 	private int[] likes;
 	private SurveyFragment fragment;
-
-	public boolean isPool() {
-		return pool;
-	}
-
-	public void setPool(boolean pool) {
-		this.pool = pool;
-	}
 
 	public ImageCellAdapter(Context c) {
 		mContext = c;
@@ -143,6 +133,12 @@ public class ImageCellAdapter extends BaseAdapter {
 		return v;
 	}
 	
+	/**
+	 * When coming back to a view, or rotating the device, check if there was a chip there previously 
+	 * 
+	 * @param pos
+	 * @return
+	 */
 	private boolean contains(int pos) {
 		for (int i = 0; i < likes.length; i++) {
 			if (likes[i] == pos)
@@ -150,6 +146,16 @@ public class ImageCellAdapter extends BaseAdapter {
 		}
 		return false;
 	}
+	
+	
+	/**
+	 * Creates a generic empty cell
+	 * 
+	 * @param position
+	 * @param convertView
+	 * @param parent
+	 * @return
+	 */
 	private ImageCell createEmptyCell(int position, View convertView, ViewGroup parent) {
 		mParentView = parent;
 		ImageCell v = null;
@@ -165,6 +171,14 @@ public class ImageCellAdapter extends BaseAdapter {
 		v.setOnDragListener(mDragListener);
 		v.setBackgroundResource(R.color.cell_empty);
 		return v;
+	}
+	
+	public boolean isPool() {
+		return pool;
+	}
+
+	public void setPool(boolean pool) {
+		this.pool = pool;
 	}
 
 } 

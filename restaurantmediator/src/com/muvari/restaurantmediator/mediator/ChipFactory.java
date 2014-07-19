@@ -13,8 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ChipFactory {
-	public static String[] CATS = { "Italian", "Chinese", "Burgers", "Indian", "Steaks" };
-	public static int PRIMARY_CHIPS = 24;
+	public static int PRIMARY_CHIPS = 24; //Number of chips that are always displayed
 
 	// Icon Drawable, Color, Visible name, query name
 	private static final int ICON = 0;
@@ -148,6 +147,14 @@ public class ChipFactory {
 		{ R.drawable.italian, R.color.light_green, R.string.uzbek, R.string.q_uzbek },
 		{ R.drawable.italian, R.color.light_red, R.string.vietnamese, R.string.q_vietnamese }};
 
+	/**
+	 * Creates an ImageCell based on the id number
+	 * 
+	 * @param context
+	 * @param num
+	 * @param primary
+	 * @return
+	 */
 	public static ImageCell createCatChip(Context context, int num, boolean primary) {
 		Integer[][] pool = primary ? PRIORITY_CATS : OTHER_CATS;
 		int id = primary ? num : num+PRIMARY_CHIPS;
@@ -173,6 +180,12 @@ public class ChipFactory {
 		return newView;
 	}
 	
+	/**
+	 * Gets a list of Strings from their ids
+	 * @param context
+	 * @param ids
+	 * @return
+	 */
 	public static ArrayList<String> getStringsFromIds(Context context, List<Integer> ids) {
 		ArrayList<String> names = new ArrayList<String>();
 		for (Integer i : ids) {
@@ -180,6 +193,13 @@ public class ChipFactory {
 		}
 		return names;
 	}
+	
+	/**
+	 * Gets a string for a specific food id
+	 * @param context
+	 * @param id
+	 * @return
+	 */
 	public static String getStringFromId(Context context, int id) {
 		boolean primary = true;
 		if (id > PRIMARY_CHIPS) {

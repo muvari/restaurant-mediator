@@ -21,13 +21,17 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
+/**
+ * Starting Activity. Includes basic instructions and where you state location and member of group
+ * @author Mark
+ *
+ */
 public class StartSurveyActivity extends FragmentActivity {
 	
 	@Override
@@ -83,6 +87,7 @@ public class StartSurveyActivity extends FragmentActivity {
 
 			});
 			
+			//Starts the Surveys
 			Button start = (Button)view.findViewById(R.id.start_button);
 			start.setOnClickListener(new OnClickListener() {
 
@@ -101,6 +106,7 @@ public class StartSurveyActivity extends FragmentActivity {
 				
 			});
 			
+			//Use GPS to detect a location
 			Button detect = (Button)view.findViewById(R.id.detect_location);
 			detect.setOnClickListener(new OnClickListener() {
 

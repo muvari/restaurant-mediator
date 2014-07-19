@@ -23,7 +23,6 @@ package com.muvari.restaurantmediator.dragndrop;
  */
 
 import android.content.ClipData;
-import android.util.Log;
 import android.view.View;
 import android.view.DragEvent;
 
@@ -36,7 +35,6 @@ import android.view.DragEvent;
  * defined in the DropTarget and DragSource interfaces.
  * 
  */
-
 public class DragController implements View.OnDragListener {
 	private DragDropPresenter mPresenter;
 
@@ -55,7 +53,7 @@ public class DragController implements View.OnDragListener {
 	public DragController(DragDropPresenter p) {
 		mPresenter = p;
 	}
-	
+
 	/**
 	 * Handle a drag event for a view.
 	 * 
@@ -98,8 +96,6 @@ public class DragController implements View.OnDragListener {
 		switch (action) {
 
 		case DragEvent.ACTION_DRAG_STARTED:
-			// Log.d (DragActivity.LOG_NAME, "Drag started");
-
 			// We want a call to mPresenter.onDragStarted once. So check to see
 			// if we are already dragging.
 			if (!mDragging) {
@@ -180,7 +176,7 @@ public class DragController implements View.OnDragListener {
 		}
 		return eventResult;
 
-	} // end onDragEvent
+	}
 
 	/**
 	 * If the view is a DragSource that allows a drag, start a drag-drop
@@ -188,7 +184,6 @@ public class DragController implements View.OnDragListener {
 	 * 
 	 * @return boolean - true means a drag-drop operation started
 	 */
-
 	public boolean startDrag(View v) {
 
 		boolean isDragSource = false;
@@ -211,7 +206,7 @@ public class DragController implements View.OnDragListener {
 		ClipData dragData = ds.clipDataForDragDrop();
 		View.DragShadowBuilder shadowView = new View.DragShadowBuilder(v);
 		v.startDrag(dragData, shadowView, null, 0);
-  		return true;
+		return true;
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.StartSurveyActivity.StartSurveyFragment;
-import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import android.annotation.SuppressLint;
@@ -15,6 +14,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
+/**
+ * Activity that contains a ViewPager of SurveyFragments. One for every user.
+ * @author Mark
+ *
+ */
 public class SurveyActivity extends FragmentActivity {
 
 	private ViewPager mPager;
@@ -58,6 +62,10 @@ public class SurveyActivity extends FragmentActivity {
 	}
 	
 	
+	/**
+	 * Gathers all of the information from all of the Surveys to pass on to the SummaryActivity
+	 * @return
+	 */
 	@SuppressLint("UseSparseArrays")
 	public Intent generateSummaryIntent() {
 		Intent intent = new Intent(this, SummaryActivity.class);
@@ -73,6 +81,7 @@ public class SurveyActivity extends FragmentActivity {
 			ratings[i] = frags[i].getRating();
 			distances[i] = frags[i].getDistance();
 			
+			//Creates a HashMap of Food ids and # of occurences of that id
 			for (int j : frags[i].getLikes()) {
 				Integer likeId = Integer.valueOf(j);
 				if (likeId > -1) {
@@ -84,6 +93,7 @@ public class SurveyActivity extends FragmentActivity {
 				}
 			}
 			
+			//Creates a list of all disliked food ids
 			for (int j : frags[i].getDislikes()) {
 				Integer dislikeId = Integer.valueOf(j);
 				if (dislikeId > -1) {

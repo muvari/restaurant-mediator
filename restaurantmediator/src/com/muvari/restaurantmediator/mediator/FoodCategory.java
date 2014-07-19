@@ -2,6 +2,11 @@ package com.muvari.restaurantmediator.mediator;
 
 import android.content.Context;
 
+/**
+ * Data class for a Food category
+ * @author Mark
+ *
+ */
 public class FoodCategory {
 	
 	private int id;

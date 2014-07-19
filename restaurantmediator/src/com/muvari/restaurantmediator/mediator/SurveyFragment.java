@@ -2,7 +2,6 @@ package com.muvari.restaurantmediator.mediator;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -30,6 +29,11 @@ import com.muvari.restaurantmediator.dragndrop.DropTarget;
 import com.muvari.restaurantmediator.dragndrop.ImageCell;
 import com.muvari.restaurantmediator.dragndrop.ImageCellAdapter;
 
+/**
+ * SurveyFragment - User is asked a few questions of their likes/dislikes
+ * @author Mark
+ *
+ */
 public class SurveyFragment extends Fragment implements View.OnLongClickListener, View.OnClickListener, DragDropPresenter, View.OnTouchListener {
 
 	public static final String SURVEY_FRAGMENT_TAG = "survey_fragment";

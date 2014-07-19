@@ -27,7 +27,6 @@ import com.muvari.restaurantmediator.mediator.FoodCategory;
 import android.content.ClipData;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -46,11 +45,11 @@ import android.widget.GridView;
 
 public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 	
-	public boolean mEmpty = true;
-	public int mCellNumber = -1;
-	public GridView mGrid;
-	public View mChip;
-	private FoodCategory mCat;
+	public boolean mEmpty = true;  //Contains a chip
+	public int mCellNumber = -1; //Location
+	public GridView mGrid; //The grid it's in
+	public View mChip; //The food category that it contains
+	private FoodCategory mCat; //More info on that food category
 
 	// Constructors
 
@@ -75,7 +74,6 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 	 * @return True if there is something to drag
 	 */
 	public boolean allowDrag() {
-		// There is something to drag if the cell is not empty.
 		return !mEmpty;
 	}
 
@@ -106,7 +104,6 @@ public class ImageCell extends FrameLayout implements DragSource, DropTarget {
 	 * 
 	 */
 	public void onDragStarted() {
-		// Change the cell a bit so the user can tell which cell they started with.
 		setBackgroundResource (R.color.cell_empty);
 	}
 

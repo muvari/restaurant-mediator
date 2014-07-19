@@ -11,11 +11,9 @@ import org.json.simple.JSONObject;
 
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.StartSurveyActivity.StartSurveyFragment;
-import com.muvari.restaurantmediator.yelp.RRPC;
 import com.muvari.restaurantmediator.yelp.YelpAPI;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -31,6 +29,11 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+/**
+ * Final Activity that displays a Webview of the selected restaurant on yelp
+ * @author Mark
+ *
+ */
 public class SummaryActivity extends FragmentActivity {
 	
 	@Override
@@ -96,6 +99,10 @@ public class SummaryActivity extends FragmentActivity {
 			return view;
 		}
 		
+		/**
+		 * Finds the rating that any user will enjoy
+		 * @return
+		 */
 		private float getMaxRating() {
 			float max = 0;
 			for (float f : ratings) {
@@ -105,6 +112,10 @@ public class SummaryActivity extends FragmentActivity {
 			return max;
 		}
 		
+		/**
+		 * Finds the distance that any user will enjoy
+		 * @return
+		 */
 		private int getMinDistance() {
 			int min = 25;
 			for (int i : distances) {
@@ -114,9 +125,14 @@ public class SummaryActivity extends FragmentActivity {
 			return (int) Math.min(40000, (min * METERS_IN_MILE));
 		}
 		
+		/**
+		 * Sorts a HashMap of Food ids and the # of occurences into an ordered list
+		 * @param wordCount
+		 * @return
+		 */
 		private List<Integer> getLikesInOrder(Map<Integer, Integer> wordCount) {
 
-		    // Convert map to list of <String,Integer> entries
+		    // Convert map to list of <Integer,Integer> entries
 		    List<Map.Entry<Integer, Integer>> list = 
 		        new ArrayList<Map.Entry<Integer, Integer>>(wordCount.entrySet());
 

@@ -54,4 +54,4 @@ public void onDragStarted (DragSource source);
 
 public void onDropCompleted (DropTarget target, boolean success);
 
-} // end Interface
+} 
