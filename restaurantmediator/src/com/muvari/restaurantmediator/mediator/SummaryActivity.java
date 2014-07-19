@@ -1,8 +1,16 @@
 package com.muvari.restaurantmediator.mediator;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.muvari.restaurantmediator.R;
+import com.muvari.restaurantmediator.mediator.StartSurveyActivity.StartSurveyFragment;
+import com.muvari.restaurantmediator.yelp.RRPC;
+import com.muvari.restaurantmediator.yelp.YelpAPI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +21,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class SummaryActivity extends FragmentActivity {
 	
@@ -27,8 +36,7 @@ public class SummaryActivity extends FragmentActivity {
 					.beginTransaction();
 	
 			
-			SummaryFragment fragment = new SummaryFragment();
-			fragment.setArguments(getIntent().getExtras());
+			SummaryFragment fragment = SummaryFragment.newInstance(getIntent().getExtras());
 			fragmentTransaction.add(R.id.scrollview, fragment,
 					SummaryFragment.SUMMARY_FRAGMENT_TAG);
 			fragmentTransaction.commit();
@@ -42,16 +50,24 @@ public class SummaryActivity extends FragmentActivity {
 		private float[] ratings;
 		private int[] distances;
 		private HashMap<Integer, Integer> likes;
-		private HashMap<Integer, Integer> dislikes;
+		private ArrayList<Integer> dislikes;
+		private String address;
 		
 		private static final float METERS_IN_MILE = (float) 1609.34;
 
 		@SuppressWarnings("unchecked")
+		public static SummaryFragment newInstance(Bundle bundle) {
+			SummaryFragment frag = new SummaryFragment();
+			frag.ratings = (float[]) bundle.get(SurveyActivity.RATING_KEY);
+			frag.distances = (int[]) bundle.get(SurveyActivity.DISTANCE_KEY);
+			frag.likes = (HashMap<Integer, Integer>) bundle.get(SurveyActivity.LIKES_KEY);
+			frag.dislikes = (ArrayList<Integer>) bundle.get(SurveyActivity.DISLIKES_KEY);
+			frag.address = (String) bundle.get(StartSurveyFragment.ADDRESS_TAG);
+			return frag;
+		}
+		
 		public SummaryFragment() {
-			ratings = (float[]) getArguments().get(SurveyActivity.RATING_KEY);
-			distances = (int[]) getArguments().get(SurveyActivity.DISTANCE_KEY);
-			likes = (HashMap<Integer, Integer>) getArguments().get(SurveyActivity.LIKES_KEY);
-			dislikes = (HashMap<Integer, Integer>) getArguments().get(SurveyActivity.DISLIKES_KEY);
+			
 		}
 
 		@Override
@@ -60,12 +76,15 @@ public class SummaryActivity extends FragmentActivity {
 			View view = inflater.inflate(R.layout.summary_fragment, container,
 					false);
 			
-			
+			//String query = generateYelpQuery();
+			List<Integer> sortedIds = getLikesInOrder(likes);
+			((TextView)view.findViewById(R.id.ending)).setText(getMaxRating() + " " + getMinDistance()/METERS_IN_MILE + " " + sortedIds.toString() + " " + determineCuisine(sortedIds));
 			return view;
 		}
 		
-		private void generateYelpQuery() {
-			
+		private String generateYelpQuery() {
+			YelpAPI yelp = new YelpAPI(RRPC.CONSUMER_KEY, RRPC.CONSUMER_SECRET, RRPC.TOKEN, RRPC.TOKEN_SECRET);
+			return YelpAPI.queryAPI(yelp, null, null, ""+getMinDistance(), null);
 		}
 		
 		private float getMaxRating() {
@@ -84,6 +103,39 @@ public class SummaryActivity extends FragmentActivity {
 					min = i;
 			}
 			return (int) Math.min(40000, (min * METERS_IN_MILE));
+		}
+		
+		private static List<Integer> getLikesInOrder(Map<Integer, Integer> wordCount) {
+
+		    // Convert map to list of <String,Integer> entries
+		    List<Map.Entry<Integer, Integer>> list = 
+		        new ArrayList<Map.Entry<Integer, Integer>>(wordCount.entrySet());
+
+		    // Sort list by integer values
+		    Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+		        public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+		            // compare o2 to o1, instead of o1 to o2, to get descending freq. order
+		            return (o2.getValue()).compareTo(o1.getValue());
+		        }
+		    });
+
+		    // Populate the result into a list
+		    List<Integer> result = new ArrayList<Integer>();
+		    for (Map.Entry<Integer, Integer> entry : list) {
+		        result.add(entry.getKey());
+		    }
+		    return result;
+		}
+		
+		private String determineCuisine(List<Integer> sortedIds) {
+			String cuisine = "";
+			for (int i = 0; i < sortedIds.size(); i++) {
+				if (!dislikes.contains(sortedIds.get(i))) {
+					cuisine = ChipFactory.getStringFromId(getActivity(), sortedIds.get(i));
+					break;
+				}
+			}
+			return cuisine;
 		}
 	}
 

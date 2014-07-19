@@ -21,6 +21,11 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
+            android:name="com.muvari.restaurantmediator.mediator.SummaryActivity"
+            android:configChanges="keyboardHidden"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
             android:name="com.muvari.restaurantmediator.mediator.StartSurveyActivity"
             android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" >

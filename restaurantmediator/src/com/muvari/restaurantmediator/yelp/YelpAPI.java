@@ -76,6 +76,8 @@ public class YelpAPI {
 		if (!radius_filter.isEmpty())
 			request.addQuerystringParameter("radius_filter", radius_filter);
 		request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
+
+		//request.addQuerystringParameter("sort", String.valueOf(2));
 		return sendRequestAndGetResponse(request);
 	}
 
@@ -131,7 +133,7 @@ public class YelpAPI {
 	 * @param yelpApiCli
 	 *            <tt>YelpAPICLI</tt> command line arguments
 	 */
-	public static void queryAPI(YelpAPI yelpApi, String term, String cat, String rad, String loc) {
+	public static String queryAPI(YelpAPI yelpApi, String term, String cat, String rad, String loc) {
 		String searchResponseJSON = yelpApi.searchForBusinessesByLocation(term, cat, rad, loc);
 
 		JSONParser parser = new JSONParser();
@@ -153,6 +155,7 @@ public class YelpAPI {
 		String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
 		System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
 		System.out.println(businessResponseJSON);
+		return businessResponseJSON;
 	}
 
 	public static class TwoStepOAuth extends DefaultApi10a {

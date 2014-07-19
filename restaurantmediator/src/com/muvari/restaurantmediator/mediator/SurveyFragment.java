@@ -97,7 +97,7 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 			public void onClick(View v) {
 				SurveyActivity act = (SurveyActivity) getActivity();
 				ViewPager pager = act.getPager();
-				if (pager.getCurrentItem() == pager.getChildCount()) {
+				if (pager.getCurrentItem() == (pager.getChildCount()-1)) {
 					getActivity().startActivity(((SurveyActivity) getActivity()).generateSummaryIntent());
 				} else {
 					pager.setCurrentItem(pager.getCurrentItem() + 1);
@@ -182,7 +182,13 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 	public int getDistance() {
 		int selectedId = distance.getCheckedRadioButtonId();
 		RadioButton button = (RadioButton) distance.findViewById(selectedId);
-		return Integer.parseInt(button.getText().toString());
+		int distance;
+		if (button == null) {
+			distance = 25;
+		} else {
+			distance = Integer.parseInt(button.getText().toString());
+		}
+		return distance;
 	}
 
 	public void expandPool() {

@@ -33,7 +33,7 @@ public class ChipFactory {
 			{ R.drawable.italian, R.color.light_red, R.string.japanese, R.string.q_japanese },
 			{ R.drawable.italian, R.color.light_red, R.string.korean, R.string.q_korean },
 			{ R.drawable.italian, R.color.light_red, R.string.mediterranean, R.string.q_mediterranean },
-			{ R.drawable.italian, R.color.light_purple, R.string.mexican, R.string.mexican },
+			{ R.drawable.italian, R.color.light_purple, R.string.mexican, R.string.q_mexican },
 			{ R.drawable.italian, R.color.light_red, R.string.american_new, R.string.q_american_new },
 			{ R.drawable.italian, R.color.light_orange, R.string.pizza, R.string.q_pizza },
 			{ R.drawable.italian, R.color.light_blue, R.string.sandwiches, R.string.q_sandwiches },
@@ -44,14 +44,14 @@ public class ChipFactory {
 			{ R.drawable.italian, R.color.light_red, R.string.thai, R.string.q_thai },
 			{ R.drawable.italian, R.color.light_green, R.string.american_trad, R.string.q_american_trad },
 			{ R.drawable.italian, R.color.light_red, R.string.vegan, R.string.q_vegan },
-			{ R.drawable.italian, R.color.light_red, R.string.vegetarian, R.string.vegetarian }, };
+			{ R.drawable.italian, R.color.light_red, R.string.vegetarian, R.string.q_vegetarian }, };
 	
 	//The Rest
 	public static Integer[][] OTHER_CATS = { 
 		{ R.drawable.italian, R.color.light_red, R.string.afghan, R.string.q_afghan },
 		{ R.drawable.italian, R.color.light_red, R.string.african, R.string.q_african },
 		{ R.drawable.italian, R.color.light_red, R.string.senegalese, R.string.q_Senegalese },
-		{ R.drawable.italian, R.color.light_red, R.string.southafrican, R.string.southafrican },
+		{ R.drawable.italian, R.color.light_red, R.string.southafrican, R.string.q_southafrican },
 		{ R.drawable.italian, R.color.light_red, R.string.arabian, R.string.q_arabian },
 		{ R.drawable.italian, R.color.light_red, R.string.argentine, R.string.q_argentine },
 		{ R.drawable.italian, R.color.light_red, R.string.armenian, R.string.q_armenian },
@@ -96,7 +96,7 @@ public class ChipFactory {
 		{ R.drawable.italian, R.color.light_red, R.string.french, R.string.q_french },
 		{ R.drawable.italian, R.color.light_green, R.string.gastropubs, R.string.q_gastropubs },
 		{ R.drawable.italian, R.color.light_red, R.string.german, R.string.q_german },
-		{ R.drawable.italian, R.color.light_red, R.string.gluten_free, R.string.gluten_free },
+		{ R.drawable.italian, R.color.light_red, R.string.gluten_free, R.string.q_gluten_free },
 		{ R.drawable.italian, R.color.light_red, R.string.halal, R.string.q_halal },
 		{ R.drawable.italian, R.color.light_red, R.string.hawaiian, R.string.q_hawaiian },
 		{ R.drawable.italian, R.color.light_red, R.string.himalyan, R.string.q_himalyan },
@@ -114,11 +114,11 @@ public class ChipFactory {
 		{ R.drawable.italian, R.color.light_orange, R.string.salvadoran, R.string.q_salvadoran },
 		{ R.drawable.italian, R.color.light_blue, R.string.venezuelan, R.string.q_venezuelan },
 		{ R.drawable.italian, R.color.light_red, R.string.raw_food, R.string.q_raw_food },
-		{ R.drawable.italian, R.color.light_red, R.string.malaysian, R.string.malaysian },
+		{ R.drawable.italian, R.color.light_red, R.string.malaysian, R.string.q_malaysian },
 		{ R.drawable.italian, R.color.light_red, R.string.falafel, R.string.q_falafel },
 		{ R.drawable.italian, R.color.light_red, R.string.middle_eastern, R.string.q_middle_eastern },
-		{ R.drawable.italian, R.color.light_red, R.string.egyptian, R.string.egyptian },
-		{ R.drawable.italian, R.color.light_green, R.string.lebanese, R.string.lebanese },
+		{ R.drawable.italian, R.color.light_red, R.string.egyptian, R.string.q_egyptian },
+		{ R.drawable.italian, R.color.light_green, R.string.lebanese, R.string.q_lebanese },
 		{ R.drawable.italian, R.color.light_red, R.string.modern_european, R.string.q_modern_european },
 		{ R.drawable.italian, R.color.light_red, R.string.mongolian, R.string.q_mongolian },
 		{ R.drawable.italian, R.color.light_red, R.string.moroccan, R.string.q_moroccan },
@@ -168,6 +168,16 @@ public class ChipFactory {
 		newView.addView(chip);
 
 		return newView;
+	}
+	
+	public static String getStringFromId(Context context, int id) {
+		boolean primary = true;
+		if (id > PRIMARY_CHIPS) {
+			id -= PRIMARY_CHIPS;
+			primary = false;
+		}
+		Integer[] cuisine = primary ? PRIORITY_CATS[id] : OTHER_CATS[id];
+		return context.getResources().getString(cuisine[SEARCH_NAME]);
 	}
 
 }
