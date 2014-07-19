@@ -26,6 +26,7 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class SummaryActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.scrollable_activity);
 		if (savedInstanceState == null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
@@ -133,21 +135,10 @@ public class SummaryActivity extends FragmentActivity {
 		    }
 		    return result;
 		}
-		
-		private String determineCuisine(List<Integer> sortedIds) {
-			String cuisine = "";
-			for (int i = 0; i < sortedIds.size(); i++) {
-				if (!dislikes.contains(sortedIds.get(i))) {
-					cuisine = ChipFactory.getStringFromId(getActivity(), sortedIds.get(i));
-					break;
-				}
-			}
-			return cuisine;
-		}
 
 		@Override
 		public Loader<JSONObject> onCreateLoader(int arg0, Bundle arg1) {
-			return new YelpAPI.SimpleDBLoader(getActivity(), "", determineCuisine(getLikesInOrder(likes)), ""+getMinDistance(), address);
+			return new YelpAPI.SimpleDBLoader(getActivity(), "", getLikesInOrder(likes), dislikes, ""+getMinDistance(), address, getMaxRating());
 		}
 
 		@SuppressLint("SetJavaScriptEnabled")

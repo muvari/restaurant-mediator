@@ -1,5 +1,7 @@
 package com.muvari.restaurantmediator.yelp;
 
+import java.util.List;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,6 +13,8 @@ import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
+
+import com.muvari.restaurantmediator.mediator.ChipFactory;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
@@ -81,7 +85,7 @@ public class YelpAPI {
 			request.addQuerystringParameter("radius_filter", radius_filter);
 		request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
 
-		//request.addQuerystringParameter("sort", String.valueOf(2));
+		// request.addQuerystringParameter("sort", String.valueOf(2));
 		return sendRequestAndGetResponse(request);
 	}
 
@@ -145,30 +149,46 @@ public class YelpAPI {
 			return null;
 		}
 	}
-	
+
 	public static class SimpleDBLoader extends AsyncTaskLoader<JSONObject> {
 
+		Context context;
 		String term;
-		String cat;
+		List<Integer> likes;
+		List<String> dislikeNames;
+		List<Integer> dislikes;
 		String rad;
 		String loc;
-		
+		float rat;
+
 		public SimpleDBLoader(Context context) {
 			super(context);
 		}
 
-		public SimpleDBLoader(Context context, String term, String cat, String rad, String loc) {
+		public SimpleDBLoader(Context context, String term, List<Integer> likes, List<Integer> dislikes, String rad, String loc, float rat) {
 			super(context);
+			this.context = context;
 			this.term = term;
-			this.cat = cat;
+			this.likes = likes;
+			this.dislikes = dislikes;
+			dislikeNames = ChipFactory.getStringsFromIds(context, dislikes);
 			this.rad = rad;
 			this.loc = loc;
+			this.rat = rat;
 		}
-		
+
 		@Override
 		public JSONObject loadInBackground() {
 			YelpAPI yelpApi = new YelpAPI(RRPC.CONSUMER_KEY, RRPC.CONSUMER_SECRET, RRPC.TOKEN, RRPC.TOKEN_SECRET);
-			String searchResponseJSON = yelpApi.searchForBusinessesByLocation(term, cat, rad, loc);
+			return queryApi(yelpApi);
+		}
+
+		private JSONObject queryApi(YelpAPI yelpApi) {
+			String cuisine = determineCuisine(context, likes);
+			if (cuisine.equals(""))
+				return new JSONObject();
+
+			String searchResponseJSON = yelpApi.searchForBusinessesByLocation(term, cuisine, rad, loc);
 
 			JSONParser parser = new JSONParser();
 			JSONObject response = null;
@@ -180,17 +200,42 @@ public class YelpAPI {
 			}
 
 			JSONArray businesses = (JSONArray) response.get("businesses");
-			JSONObject firstBusiness = (JSONObject) businesses.get(0);
-			String firstBusinessID = firstBusiness.get("id").toString();
-			Log.i("test", String.format("%s businesses found, querying business info for the top result \"%s\" ...", businesses.size(), firstBusinessID));
+			if (businesses != null && businesses.size() > 0) {
+				for (int i = 0; i < businesses.size(); i++) {
 
-			// Select the first business and display business details
-			String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
-			Log.i("test", String.format("Result for business \"%s\" found:", firstBusinessID));
-			Log.i("test", businessResponseJSON);
-			return firstBusiness;
+					JSONObject bus = (JSONObject) businesses.get(i);
+					if (!(Boolean) bus.get("is_closed") || ((Float)bus.get("rating")).floatValue() < rat) {
+						JSONArray cats = (JSONArray) bus.get("categories");
+						boolean disliked = false;
+						for (int j = 0; j < cats.size(); j++) {
+							if (dislikeNames.contains(cats.get(j))) {
+								disliked = true;
+								break;
+							}
+						}
+						if (!disliked) return bus;
+					}
+				}
+			} 
+			
+			likes.remove(0);
+			return queryApi(yelpApi);
+			
 		}
-		
+
+		private String determineCuisine(Context context, List<Integer> sortedIds) {
+			String cuisine = "";
+			if (sortedIds.size() == 0)
+				return cuisine;
+			for (int i = 0; i < sortedIds.size(); i++) {
+				if (!dislikes.contains(sortedIds.get(i))) {
+					cuisine = ChipFactory.getStringFromId(context, sortedIds.get(i));
+					break;
+				}
+			}
+			return cuisine;
+		}
+
 	}
 
 }

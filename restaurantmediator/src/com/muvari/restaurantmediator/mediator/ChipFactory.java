@@ -1,5 +1,8 @@
 package com.muvari.restaurantmediator.mediator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.dragndrop.ImageCell;
 
@@ -170,6 +173,13 @@ public class ChipFactory {
 		return newView;
 	}
 	
+	public static ArrayList<String> getStringsFromIds(Context context, List<Integer> ids) {
+		ArrayList<String> names = new ArrayList<String>();
+		for (Integer i : ids) {
+			names.add(getStringFromId(context, i.intValue()));
+		}
+		return names;
+	}
 	public static String getStringFromId(Context context, int id) {
 		boolean primary = true;
 		if (id > PRIMARY_CHIPS) {
