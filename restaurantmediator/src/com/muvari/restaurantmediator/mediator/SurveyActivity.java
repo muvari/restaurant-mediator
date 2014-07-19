@@ -97,7 +97,7 @@ public class SurveyActivity extends FragmentActivity {
 		intent.putExtra(RATING_KEY, ratings);
 		intent.putExtra(LIKES_KEY, likes);
 		intent.putExtra(DISLIKES_KEY, dislikes);
-		intent.putExtra(StartSurveyFragment.ADDRESS_TAG, intent.getStringExtra(StartSurveyFragment.ADDRESS_TAG));
+		intent.putExtra(StartSurveyFragment.ADDRESS_TAG, getIntent().getStringExtra(StartSurveyFragment.ADDRESS_TAG));
 		return intent;
 	}
 

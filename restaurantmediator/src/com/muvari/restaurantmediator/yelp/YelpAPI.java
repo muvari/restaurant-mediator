@@ -12,6 +12,10 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
+
 /**
  * Code sample for accessing the Yelp API V2.
  * 
@@ -28,7 +32,7 @@ import org.scribe.oauth.OAuthService;
 public class YelpAPI {
 
 	private static final String API_HOST = "api.yelp.com";
-	private static final int SEARCH_LIMIT = 3;
+	private static final int SEARCH_LIMIT = 5;
 	private static final String SEARCH_PATH = "/v2/search";
 	private static final String BUSINESS_PATH = "/v2/business";
 
@@ -118,44 +122,10 @@ public class YelpAPI {
 	 * @return <tt>String</tt> body of API response
 	 */
 	private String sendRequestAndGetResponse(OAuthRequest request) {
-		System.out.println("Querying " + request.getCompleteUrl() + " ...");
+		Log.i("test", "Querying " + request.getCompleteUrl() + " ...");
 		this.service.signRequest(this.accessToken, request);
 		Response response = request.send();
 		return response.getBody();
-	}
-
-	/**
-	 * Queries the Search API based on the command line arguments and takes the
-	 * first result to query the Business API.
-	 * 
-	 * @param yelpApi
-	 *            <tt>YelpAPI</tt> service instance
-	 * @param yelpApiCli
-	 *            <tt>YelpAPICLI</tt> command line arguments
-	 */
-	public static String queryAPI(YelpAPI yelpApi, String term, String cat, String rad, String loc) {
-		String searchResponseJSON = yelpApi.searchForBusinessesByLocation(term, cat, rad, loc);
-
-		JSONParser parser = new JSONParser();
-		JSONObject response = null;
-		try {
-			response = (JSONObject) parser.parse(searchResponseJSON);
-		} catch (ParseException pe) {
-			System.out.println("Error: could not parse JSON response:");
-			System.out.println(searchResponseJSON);
-			System.exit(1);
-		}
-
-		JSONArray businesses = (JSONArray) response.get("businesses");
-		JSONObject firstBusiness = (JSONObject) businesses.get(0);
-		String firstBusinessID = firstBusiness.get("id").toString();
-		System.out.println(String.format("%s businesses found, querying business info for the top result \"%s\" ...", businesses.size(), firstBusinessID));
-
-		// Select the first business and display business details
-		String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
-		System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
-		System.out.println(businessResponseJSON);
-		return businessResponseJSON;
 	}
 
 	public static class TwoStepOAuth extends DefaultApi10a {
@@ -174,6 +144,53 @@ public class YelpAPI {
 		public String getRequestTokenEndpoint() {
 			return null;
 		}
+	}
+	
+	public static class SimpleDBLoader extends AsyncTaskLoader<JSONObject> {
+
+		String term;
+		String cat;
+		String rad;
+		String loc;
+		
+		public SimpleDBLoader(Context context) {
+			super(context);
+		}
+
+		public SimpleDBLoader(Context context, String term, String cat, String rad, String loc) {
+			super(context);
+			this.term = term;
+			this.cat = cat;
+			this.rad = rad;
+			this.loc = loc;
+		}
+		
+		@Override
+		public JSONObject loadInBackground() {
+			YelpAPI yelpApi = new YelpAPI(RRPC.CONSUMER_KEY, RRPC.CONSUMER_SECRET, RRPC.TOKEN, RRPC.TOKEN_SECRET);
+			String searchResponseJSON = yelpApi.searchForBusinessesByLocation(term, cat, rad, loc);
+
+			JSONParser parser = new JSONParser();
+			JSONObject response = null;
+			try {
+				response = (JSONObject) parser.parse(searchResponseJSON);
+			} catch (ParseException pe) {
+				Log.i("test", "Error: could not parse JSON response:");
+				Log.i("test", searchResponseJSON);
+			}
+
+			JSONArray businesses = (JSONArray) response.get("businesses");
+			JSONObject firstBusiness = (JSONObject) businesses.get(0);
+			String firstBusinessID = firstBusiness.get("id").toString();
+			Log.i("test", String.format("%s businesses found, querying business info for the top result \"%s\" ...", businesses.size(), firstBusinessID));
+
+			// Select the first business and display business details
+			String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
+			Log.i("test", String.format("Result for business \"%s\" found:", firstBusinessID));
+			Log.i("test", businessResponseJSON);
+			return firstBusiness;
+		}
+		
 	}
 
 }

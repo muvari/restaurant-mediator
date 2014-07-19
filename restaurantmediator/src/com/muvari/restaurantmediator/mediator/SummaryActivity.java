@@ -7,20 +7,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.StartSurveyActivity.StartSurveyFragment;
 import com.muvari.restaurantmediator.yelp.RRPC;
 import com.muvari.restaurantmediator.yelp.YelpAPI;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class SummaryActivity extends FragmentActivity {
@@ -43,7 +50,7 @@ public class SummaryActivity extends FragmentActivity {
 		}
 	}
 	
-	public static class SummaryFragment extends Fragment {
+	public static class SummaryFragment extends Fragment implements LoaderCallbacks<org.json.simple.JSONObject> {
 
 		public static final String SUMMARY_FRAGMENT_TAG = "summary_fragment";
 
@@ -52,6 +59,10 @@ public class SummaryActivity extends FragmentActivity {
 		private HashMap<Integer, Integer> likes;
 		private ArrayList<Integer> dislikes;
 		private String address;
+		
+		private TextView text;
+		private WebView webView;
+		private ProgressBar progress;
 		
 		private static final float METERS_IN_MILE = (float) 1609.34;
 
@@ -76,15 +87,11 @@ public class SummaryActivity extends FragmentActivity {
 			View view = inflater.inflate(R.layout.summary_fragment, container,
 					false);
 			
-			//String query = generateYelpQuery();
-			List<Integer> sortedIds = getLikesInOrder(likes);
-			((TextView)view.findViewById(R.id.ending)).setText(getMaxRating() + " " + getMinDistance()/METERS_IN_MILE + " " + sortedIds.toString() + " " + determineCuisine(sortedIds));
+			getLoaderManager().initLoader(0, null, this).forceLoad();
+			text = ((TextView)view.findViewById(R.id.ending));
+			webView = ((WebView)view.findViewById(R.id.webView1));
+			progress = ((ProgressBar)view.findViewById(R.id.progress));
 			return view;
-		}
-		
-		private String generateYelpQuery() {
-			YelpAPI yelp = new YelpAPI(RRPC.CONSUMER_KEY, RRPC.CONSUMER_SECRET, RRPC.TOKEN, RRPC.TOKEN_SECRET);
-			return YelpAPI.queryAPI(yelp, null, null, ""+getMinDistance(), null);
 		}
 		
 		private float getMaxRating() {
@@ -105,7 +112,7 @@ public class SummaryActivity extends FragmentActivity {
 			return (int) Math.min(40000, (min * METERS_IN_MILE));
 		}
 		
-		private static List<Integer> getLikesInOrder(Map<Integer, Integer> wordCount) {
+		private List<Integer> getLikesInOrder(Map<Integer, Integer> wordCount) {
 
 		    // Convert map to list of <String,Integer> entries
 		    List<Map.Entry<Integer, Integer>> list = 
@@ -136,6 +143,27 @@ public class SummaryActivity extends FragmentActivity {
 				}
 			}
 			return cuisine;
+		}
+
+		@Override
+		public Loader<JSONObject> onCreateLoader(int arg0, Bundle arg1) {
+			return new YelpAPI.SimpleDBLoader(getActivity(), "", determineCuisine(getLikesInOrder(likes)), ""+getMinDistance(), address);
+		}
+
+		@SuppressLint("SetJavaScriptEnabled")
+		@Override
+		public void onLoadFinished(Loader<JSONObject> arg0, JSONObject arg1) {
+			String url = arg1.get("mobile_url").toString();
+			progress.setVisibility(View.GONE);
+			text.setVisibility(View.GONE);
+			webView.setVisibility(View.VISIBLE);
+			webView.getSettings().setJavaScriptEnabled(true);
+			webView.loadUrl(url);
+		}
+
+		@Override
+		public void onLoaderReset(Loader<JSONObject> arg0) {
+			
 		}
 	}
 
