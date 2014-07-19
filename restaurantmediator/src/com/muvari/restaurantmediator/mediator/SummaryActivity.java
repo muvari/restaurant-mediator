@@ -139,7 +139,6 @@ public class SummaryActivity extends FragmentActivity {
 		    // Sort list by integer values
 		    Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
 		        public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-		            // compare o2 to o1, instead of o1 to o2, to get descending freq. order
 		            return (o2.getValue()).compareTo(o1.getValue());
 		        }
 		    });

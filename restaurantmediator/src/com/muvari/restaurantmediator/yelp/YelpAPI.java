@@ -204,7 +204,7 @@ public class YelpAPI {
 			
 			//Base Case: End of List
 			if (cuisine.equals(""))
-				return new JSONObject();
+				cuisine = "restaurants";
 
 			//Search the top of the cuisine queue
 			String searchResponseJSON = yelpApi.searchForBusinessesByLocation(term, cuisine, rad, loc);
