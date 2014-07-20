@@ -1,5 +1,6 @@
 package com.muvari.restaurantmediator.yelp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONArray;
@@ -15,6 +16,9 @@ import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
 import com.muvari.restaurantmediator.mediator.ChipFactory;
+import com.muvari.restaurantmediator.mediator.SummaryActivity;
+import com.muvari.restaurantmediator.mediator.SurveyFragment;
+import com.muvari.restaurantmediator.mediator.SummaryActivity.SummaryFragment;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
@@ -166,6 +170,9 @@ public class YelpAPI {
 		private String rad; //Radius
 		private String loc; //Location
 		private float rat; //Rating
+		
+		private float originalRating;
+		private List<String> originalLikes;
 
 		public SimpleDBLoader(Context context) {
 			super(context);
@@ -180,6 +187,8 @@ public class YelpAPI {
 			this.rad = rad;
 			this.loc = loc;
 			this.rat = rat;
+			originalLikes = new ArrayList<String>(likes);
+			originalRating = rat + 0;
 		}
 
 		/**
@@ -188,7 +197,7 @@ public class YelpAPI {
 		@Override
 		public JSONObject loadInBackground() {
 			YelpAPI yelpApi = new YelpAPI(RRPC.CONSUMER_KEY, RRPC.CONSUMER_SECRET, RRPC.TOKEN, RRPC.TOKEN_SECRET);
-			return queryApi(yelpApi);
+			return queryApi(yelpApi, likes, rat, rad);
 		}
 
 		/**
@@ -197,7 +206,7 @@ public class YelpAPI {
 		 * @param yelpApi
 		 * @return
 		 */
-		private JSONObject queryApi(YelpAPI yelpApi) {
+		private JSONObject queryApi(YelpAPI yelpApi, List<String> likes, float rat, String rad) {
 			String cuisine = "";
 			if (likes.size() > 0)
 				cuisine = likes.get(0);
@@ -227,12 +236,15 @@ public class YelpAPI {
 
 					JSONObject bus = (JSONObject) businesses.get(i);
 					//If the business is closed, or rated too poorly, move on
-					if (!(Boolean) bus.get("is_closed") || ((Float)bus.get("rating")).floatValue() < rat) {
+					Boolean isClosed = (Boolean) bus.get("is_closed");
+					Double rating = ((Double)bus.get("rating"));
+					if (!isClosed && rating > rat) {
 						JSONArray cats = (JSONArray) bus.get("categories");
 						boolean disliked = false;
 						//Make sure that none of the categories are disliked by any user
 						for (int j = 0; j < cats.size(); j++) {
-							if (dislikeNames.contains(cats.get(j))) {
+							JSONArray cat = (JSONArray) cats.get(j);
+							if (dislikeNames.contains((cat.get(1)))) {
 								disliked = true;
 								break;
 							}
@@ -244,8 +256,16 @@ public class YelpAPI {
 			
 			//If we got here, it means none of the results in the query were valid, so we need to 
 			//create a new query and try again with the next cuisine in the list
-			likes.remove(0);
-			return queryApi(yelpApi);
+			if (likes.size() != 0) {
+				likes.remove(0);
+				return queryApi(yelpApi, likes, rat, rad);
+			} else if (rat > 0){ //If the list is empty, lower rating threshold, start over
+				rat -= 1;
+				return queryApi(yelpApi, originalLikes, rat, rad);
+			} else { //If rating is lowest, raise the radius, start over
+				float f = Float.parseFloat(rad) + SummaryFragment.METERS_IN_MILE;
+				return queryApi(yelpApi, originalLikes, originalRating, f+"");
+			}
 			
 		}
 	}

@@ -69,7 +69,7 @@ public class SummaryActivity extends FragmentActivity {
 		private WebView webView;
 		private ProgressBar progress;
 		
-		private static final float METERS_IN_MILE = (float) 1609.34;
+		public static final float METERS_IN_MILE = (float) 1609.34;
 
 		@SuppressWarnings("unchecked")
 		public static SummaryFragment newInstance(Bundle bundle) {
