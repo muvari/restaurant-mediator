@@ -101,7 +101,7 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 			public void onClick(View v) {
 				SurveyActivity act = (SurveyActivity) getActivity();
 				ViewPager pager = act.getPager();
-				if (pager.getCurrentItem() == (pager.getChildCount()-1)) {
+				if (pager.getCurrentItem() == (pager.getAdapter().getCount()-1)) {
 					getActivity().startActivity(((SurveyActivity) getActivity()).generateSummaryIntent());
 				} else {
 					pager.setCurrentItem(pager.getCurrentItem() + 1);
