@@ -69,15 +69,16 @@ public class SurveyActivity extends FragmentActivity {
 	@SuppressLint("UseSparseArrays")
 	public Intent generateSummaryIntent() {
 		Intent intent = new Intent(this, SummaryActivity.class);
-		int count = mPager.getChildCount();
+
+		SurveyPagerAdapter ad = (SurveyPagerAdapter) mPager.getAdapter();
+		int count = ad.getCount();
 		float[] ratings = new float[count];
 		int[] distances = new int[count];
 		HashMap<Integer, Integer> likes = new HashMap<Integer, Integer>();
 		ArrayList<Integer> dislikes = new ArrayList<Integer>();
 		
-		SurveyPagerAdapter ad = (SurveyPagerAdapter) mPager.getAdapter();
 		SurveyFragment[] frags = ad.getFragments();
-		for (int i = 0; i < mPager.getChildCount(); i++) {
+		for (int i = 0; i < count; i++) {
 			ratings[i] = frags[i].getRating();
 			distances[i] = frags[i].getDistance();
 			
