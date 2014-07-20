@@ -2,6 +2,7 @@ package com.muvari.restaurantmediator.yelp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,9 +16,6 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
-import com.muvari.restaurantmediator.mediator.ChipFactory;
-import com.muvari.restaurantmediator.mediator.SummaryActivity;
-import com.muvari.restaurantmediator.mediator.SurveyFragment;
 import com.muvari.restaurantmediator.mediator.SummaryActivity.SummaryFragment;
 
 import android.content.Context;
@@ -42,7 +40,7 @@ import android.util.Log;
 public class YelpAPI {
 
 	private static final String API_HOST = "api.yelp.com";
-	private static final int SEARCH_LIMIT = 5;
+	private static final int SEARCH_LIMIT = 12;
 	private static final String SEARCH_PATH = "/v2/search";
 	private static final String BUSINESS_PATH = "/v2/business";
 
@@ -158,19 +156,21 @@ public class YelpAPI {
 
 	/**
 	 * AsyncTaskLoader to query Yelp APIs
+	 * 
 	 * @author Mark
-	 *
+	 * 
 	 */
 	public static class SimpleDBLoader extends AsyncTaskLoader<JSONObject> {
 
-		private Context context;
-		private String term; //Extra query
-		private List<String> likes; //List of sorted and combined liked food categories
-		private List<String> dislikeNames; //The list of disliked food categories
-		private String rad; //Radius
-		private String loc; //Location
-		private float rat; //Rating
-		
+		private String term; // Extra query
+		private List<String> likes; // List of sorted and combined liked food
+									// categories
+		private List<String> dislikeNames; // The list of disliked food
+											// categories
+		private String rad; // Radius
+		private String loc; // Location
+		private float rat; // Rating
+
 		private float originalRating;
 		private List<String> originalLikes;
 
@@ -180,7 +180,6 @@ public class YelpAPI {
 
 		public SimpleDBLoader(Context context, String term, List<String> likes, List<String> dislikes, String rad, String loc, float rat) {
 			super(context);
-			this.context = context;
 			this.term = term;
 			this.likes = likes;
 			dislikeNames = dislikes;
@@ -201,7 +200,8 @@ public class YelpAPI {
 		}
 
 		/**
-		 * Recursive query function that keeps querying until a valid match is met
+		 * Recursive query function that keeps querying until a valid match is
+		 * met
 		 * 
 		 * @param yelpApi
 		 * @return
@@ -210,15 +210,15 @@ public class YelpAPI {
 			String cuisine = "";
 			if (likes.size() > 0)
 				cuisine = likes.get(0);
-			
-			//Base Case: End of List
+
+			// Base Case: End of List
 			if (cuisine.equals(""))
 				cuisine = "restaurants";
 
-			//Search the top of the cuisine queue
+			// Search the top of the cuisine queue
 			String searchResponseJSON = yelpApi.searchForBusinessesByLocation(term, cuisine, rad, loc);
 
-			//Parse the response
+			// Parse the response
 			JSONParser parser = new JSONParser();
 			JSONObject response = null;
 			try {
@@ -228,20 +228,24 @@ public class YelpAPI {
 				Log.i("test", searchResponseJSON);
 			}
 
-			
 			JSONArray businesses = (JSONArray) response.get("businesses");
+
+			// Randomize Order of the businesses
+			businesses = randomizeBusinesses(businesses);
+
 			if (businesses != null && businesses.size() > 0) {
-				//Loop through the results from the query
+				// Loop through the results from the query
 				for (int i = 0; i < businesses.size(); i++) {
 
 					JSONObject bus = (JSONObject) businesses.get(i);
-					//If the business is closed, or rated too poorly, move on
+					// If the business is closed, or rated too poorly, move on
 					Boolean isClosed = (Boolean) bus.get("is_closed");
-					Double rating = ((Double)bus.get("rating"));
+					Double rating = ((Double) bus.get("rating"));
 					if (!isClosed && rating > rat) {
 						JSONArray cats = (JSONArray) bus.get("categories");
 						boolean disliked = false;
-						//Make sure that none of the categories are disliked by any user
+						// Make sure that none of the categories are disliked by
+						// any user
 						for (int j = 0; j < cats.size(); j++) {
 							JSONArray cat = (JSONArray) cats.get(j);
 							if (dislikeNames.contains((cat.get(1)))) {
@@ -249,24 +253,41 @@ public class YelpAPI {
 								break;
 							}
 						}
-						if (!disliked) return bus;
+						if (!disliked)
+							return bus;
 					}
 				}
-			} 
-			
-			//If we got here, it means none of the results in the query were valid, so we need to 
-			//create a new query and try again with the next cuisine in the list
+			}
+
+			// If we got here, it means none of the results in the query were
+			// valid, so we need to
+			// create a new query and try again with the next cuisine in the
+			// list
 			if (likes.size() != 0) {
 				likes.remove(0);
 				return queryApi(yelpApi, likes, rat, rad);
-			} else if (rat > 0){ //If the list is empty, lower rating threshold, start over
+			} else if (rat > 0) { // If the list is empty, lower rating
+									// threshold, start over
 				rat -= 1;
 				return queryApi(yelpApi, originalLikes, rat, rad);
-			} else { //If rating is lowest, raise the radius, start over
+			} else { // If rating is lowest, raise the radius, start over
 				float f = Float.parseFloat(rad) + SummaryFragment.METERS_IN_MILE;
-				return queryApi(yelpApi, originalLikes, originalRating, f+"");
+				return queryApi(yelpApi, originalLikes, originalRating, f + "");
 			}
-			
+
+		}
+
+		@SuppressWarnings("unchecked")
+		private JSONArray randomizeBusinesses(JSONArray array) {
+			Random rnd = new Random();
+			for (int i = array.size() - 1; i > 0; i--) {
+				int index = rnd.nextInt(i + 1);
+				// Simple swap
+				Object a = array.get(index);
+				array.set(index, array.get(i));
+				array.set(i, a);
+			}
+			return array;
 		}
 	}
 
