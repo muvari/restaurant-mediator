@@ -156,7 +156,7 @@ public class ImageCellAdapter extends BaseAdapter {
 	 * @param parent
 	 * @return
 	 */
-	private ImageCell createEmptyCell(int position, View convertView, ViewGroup parent) {
+	public ImageCell createEmptyCell(int position, View convertView, ViewGroup parent) {
 		mParentView = parent;
 		ImageCell v = null;
 		Resources res = mContext.getResources();
@@ -179,6 +179,16 @@ public class ImageCellAdapter extends BaseAdapter {
 
 	public void setPool(boolean pool) {
 		this.pool = pool;
+	}
+	
+	public void setLikes(int[] likes) {
+		this.likes = likes;
+	}
+	
+	public void setLikes(int[] likes, int[] dislikes) {
+		this.likes = new int[likes.length + dislikes.length];
+		System.arraycopy(likes, 0, this.likes, 0, likes.length);
+		System.arraycopy(dislikes, 0, this.likes, likes.length, dislikes.length);
 	}
 
 } 

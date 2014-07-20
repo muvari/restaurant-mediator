@@ -86,7 +86,7 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 		dislikesGrid.setAdapter(new ImageCellAdapter(getActivity(), mDragController, dislikes, false, this));
 
 		((TextView) view.findViewById(R.id.dislikes).findViewById(R.id.title)).setText(R.string.dislikes_text);
-		;
+		
 
 		poolGrid = (GridView) view.findViewById(R.id.cat_pool);
 		poolGrid.setAdapter(new ImageCellAdapter(getActivity(), mDragController, 24, likes, dislikes, this));
@@ -133,6 +133,18 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 	private void moveChip(ImageCell target, ImageCell source) {
 		target.onDrop(source);
 		source.onDropCompleted(target, true);
+		
+		//Update the views
+		setLikes();
+		setDislikes();
+		((ImageCellAdapter)likesGrid.getAdapter()).setLikes(likes);
+		((ImageCellAdapter)dislikesGrid.getAdapter()).setLikes(dislikes);
+		((ImageCellAdapter)poolGrid.getAdapter()).setLikes(likes, dislikes);
+		((ImageCellAdapter)expandGrid.getAdapter()).setLikes(likes, dislikes);
+		likesGrid.invalidateViews();
+		dislikesGrid.invalidateViews();
+		poolGrid.invalidateViews();
+		expandGrid.invalidateViews();
 	}
 
 
@@ -236,7 +248,10 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 		ImageCell chip = (ImageCell) v;
 		GridView grid = (GridView) v.getParent();
 		ImageCellAdapter adapter = (ImageCellAdapter) grid.getAdapter();
+		//Determine what grid the click came from
 		if (adapter.isPool()) {
+			
+			//Check to see if there is a 'like' opening and insert it
 			for (int i = 0; i < likesGrid.getChildCount(); i++) {
 				ImageCell cell = (ImageCell) likesGrid.getChildAt(i);
 				if (cell.mEmpty) {
@@ -244,6 +259,8 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 					return;
 				}
 			}
+			
+			//Check to see if there is a dislike opening and insert it
 			for (int i = 0; i < dislikesGrid.getChildCount(); i++) {
 				ImageCell cell = (ImageCell) dislikesGrid.getChildAt(i);
 				if (cell.mEmpty) {
@@ -251,9 +268,12 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 					return;
 				}
 			}
+			
+			//If none are filled, pop the toast
 			toast("Choices filled");
 
 		} else {
+			//Check if there is an opening in the primary grid
 			for (int i = 0; i < poolGrid.getChildCount(); i++) {
 				ImageCell cell = (ImageCell) poolGrid.getChildAt(i);
 				if (cell.mEmpty) {
@@ -261,6 +281,7 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 					return;
 				}
 			}
+			//Check if there is an opening in the expanded grid
 			for (int i = 0; i < expandGrid.getChildCount(); i++) {
 				ImageCell cell = (ImageCell) expandGrid.getChildAt(i);
 				if (cell.mEmpty) {
