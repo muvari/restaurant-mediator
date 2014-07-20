@@ -161,9 +161,8 @@ public class YelpAPI {
 
 		private Context context;
 		private String term; //Extra query
-		private List<Integer> likes; //All of the liked category ids
+		private List<String> likes; //List of sorted and combined liked food categories
 		private List<String> dislikeNames; //The list of disliked food categories
-		private List<Integer> dislikes; //List of disliked food ids
 		private String rad; //Radius
 		private String loc; //Location
 		private float rat; //Rating
@@ -172,13 +171,12 @@ public class YelpAPI {
 			super(context);
 		}
 
-		public SimpleDBLoader(Context context, String term, List<Integer> likes, List<Integer> dislikes, String rad, String loc, float rat) {
+		public SimpleDBLoader(Context context, String term, List<String> likes, List<String> dislikes, String rad, String loc, float rat) {
 			super(context);
 			this.context = context;
 			this.term = term;
 			this.likes = likes;
-			this.dislikes = dislikes;
-			dislikeNames = ChipFactory.getStringsFromIds(context, dislikes);
+			dislikeNames = dislikes;
 			this.rad = rad;
 			this.loc = loc;
 			this.rat = rat;
@@ -200,7 +198,9 @@ public class YelpAPI {
 		 * @return
 		 */
 		private JSONObject queryApi(YelpAPI yelpApi) {
-			String cuisine = determineCuisine(context, likes);
+			String cuisine = "";
+			if (likes.size() > 0)
+				cuisine = likes.get(0);
 			
 			//Base Case: End of List
 			if (cuisine.equals(""))
@@ -248,27 +248,6 @@ public class YelpAPI {
 			return queryApi(yelpApi);
 			
 		}
-
-		/**
-		 * Gets the next cuisine in the sorted list
-		 * 
-		 * @param context
-		 * @param sortedIds
-		 * @return
-		 */
-		private String determineCuisine(Context context, List<Integer> sortedIds) {
-			String cuisine = "";
-			if (sortedIds.size() == 0)
-				return cuisine;
-			for (int i = 0; i < sortedIds.size(); i++) {
-				if (!dislikes.contains(sortedIds.get(i))) {
-					cuisine = ChipFactory.getStringFromId(context, sortedIds.get(i));
-					break;
-				}
-			}
-			return cuisine;
-		}
-
 	}
 
 }

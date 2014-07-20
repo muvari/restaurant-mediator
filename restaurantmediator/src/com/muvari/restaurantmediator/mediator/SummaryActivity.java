@@ -150,10 +150,46 @@ public class SummaryActivity extends FragmentActivity {
 		    }
 		    return result;
 		}
+		
+		/**
+		 * Gets the sorted list from getLikesInOrder, and combines the categories with equal occurences into one comma separated item
+		 * Also removes food categories that any user disliked
+		 * 
+		 * @param sortedIds
+		 * @return
+		 */
+		private List<String> combineEqualLikes(List<Integer> sortedIds) {
+			ArrayList<String> sortedCategories = new ArrayList<String>();
+			if (sortedIds.size() == 0)
+				return sortedCategories;
+			
+			String groupedCats = "";
+			int prevOccurences = likes.get(sortedIds.get(0).intValue());
+			for (Integer i : sortedIds) {
+				String category = ChipFactory.getStringFromId(getActivity(), i.intValue());
+				int occurences = likes.get(i);
+				
+				if (prevOccurences != occurences) {
+					sortedCategories.add(groupedCats);
+					prevOccurences = occurences;
+					groupedCats = "";
+				} else {
+					if (!dislikes.contains(i)) {
+						if (!groupedCats.equals("")) 
+							groupedCats += ",";
+						groupedCats += category;
+					}
+				}
+			}
+			if (!groupedCats.equals(""))
+				sortedCategories.add(groupedCats);
+			
+			return sortedCategories;
+		}
 
 		@Override
 		public Loader<JSONObject> onCreateLoader(int arg0, Bundle arg1) {
-			return new YelpAPI.SimpleDBLoader(getActivity(), "", getLikesInOrder(likes), dislikes, ""+getMinDistance(), address, getMaxRating());
+			return new YelpAPI.SimpleDBLoader(getActivity(), "", combineEqualLikes(getLikesInOrder(likes)), ChipFactory.getStringsFromIds(getActivity(), dislikes), ""+getMinDistance(), address, getMaxRating());
 		}
 
 		@SuppressLint("SetJavaScriptEnabled")
