@@ -271,7 +271,7 @@ public class YelpAPI {
 				rat -= 1;
 				return queryApi(yelpApi, originalLikes, rat, rad);
 			} else { // If rating is lowest, raise the radius, start over
-				float f = Float.parseFloat(rad) + SummaryFragment.METERS_IN_MILE;
+				float f = Float.parseFloat(rad) + (5*SummaryFragment.METERS_IN_MILE);
 				return queryApi(yelpApi, originalLikes, originalRating, f + "");
 			}
 
