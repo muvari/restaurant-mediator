@@ -3,6 +3,7 @@ package com.muvari.restaurantmediator.mediator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 public class SurveyPagerAdapter extends FragmentStatePagerAdapter {
 	private int count;
@@ -16,10 +17,21 @@ public class SurveyPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public Fragment getItem(int arg0) {
-		SurveyFragment frag = new SurveyFragment();
-		frags[arg0] = frag;
-		return frag;
+		return new SurveyFragment();
 	}
+	
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment frag = (Fragment) super.instantiateItem(container, position);
+		frags[position] = (SurveyFragment) frag;
+		return frag;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        frags[position] = null;
+        super.destroyItem(container, position, object);
+    }
 
 	@Override
 	public int getCount() {

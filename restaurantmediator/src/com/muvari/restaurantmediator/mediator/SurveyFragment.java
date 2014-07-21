@@ -28,6 +28,8 @@ import com.muvari.restaurantmediator.dragndrop.DragSource;
 import com.muvari.restaurantmediator.dragndrop.DropTarget;
 import com.muvari.restaurantmediator.dragndrop.ImageCell;
 import com.muvari.restaurantmediator.dragndrop.ImageCellAdapter;
+import com.muvari.restaurantmediator.dragndrop.LikesCellAdapter;
+import com.muvari.restaurantmediator.dragndrop.PoolCellAdapter;
 
 /**
  * SurveyFragment - User is asked a few questions of their likes/dislikes
@@ -79,20 +81,20 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 		// Set up the grid view with an ImageCellAdapter and have it use the
 		// DragController.
 		likesGrid = (GridView) view.findViewById(R.id.likes).findViewById(R.id.image_grid_view);
-		likesGrid.setAdapter(new ImageCellAdapter(getActivity(), mDragController, likes, true, this));
+		likesGrid.setAdapter(new LikesCellAdapter(getActivity(), mDragController, likes, this));
 
 		dislikesGrid = (GridView) view.findViewById(R.id.dislikes).findViewById(R.id.image_grid_view);
 
-		dislikesGrid.setAdapter(new ImageCellAdapter(getActivity(), mDragController, dislikes, false, this));
+		dislikesGrid.setAdapter(new LikesCellAdapter(getActivity(), mDragController, dislikes, this));
 
 		((TextView) view.findViewById(R.id.dislikes).findViewById(R.id.title)).setText(R.string.dislikes_text);
 		
 
 		poolGrid = (GridView) view.findViewById(R.id.cat_pool);
-		poolGrid.setAdapter(new ImageCellAdapter(getActivity(), mDragController, 24, likes, dislikes, this));
+		poolGrid.setAdapter(new PoolCellAdapter(getActivity(), mDragController, 24, likes, dislikes, this));
 
 		expandGrid = (GridView) view.findViewById(R.id.cat_pool_expand);
-		expandGrid.setAdapter(new ImageCellAdapter(getActivity(), mDragController, 96, likes, dislikes, this));
+		expandGrid.setAdapter(new PoolCellAdapter(getActivity(), mDragController, 96, likes, dislikes, this));
 		
 		Button doneButton = (Button) view.findViewById(R.id.done_button);
 		doneButton.setOnClickListener(new OnClickListener() {
@@ -137,10 +139,10 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 		//Update the views
 		setLikes();
 		setDislikes();
-		((ImageCellAdapter)likesGrid.getAdapter()).setLikes(likes);
-		((ImageCellAdapter)dislikesGrid.getAdapter()).setLikes(dislikes);
-		((ImageCellAdapter)poolGrid.getAdapter()).setLikes(likes, dislikes);
-		((ImageCellAdapter)expandGrid.getAdapter()).setLikes(likes, dislikes);
+		((LikesCellAdapter)likesGrid.getAdapter()).setLikes(likes);
+		((LikesCellAdapter)dislikesGrid.getAdapter()).setLikes(dislikes);
+		((PoolCellAdapter)poolGrid.getAdapter()).setLikes(likes, dislikes);
+		((PoolCellAdapter)expandGrid.getAdapter()).setLikes(likes, dislikes);
 		likesGrid.invalidateViews();
 		dislikesGrid.invalidateViews();
 		poolGrid.invalidateViews();

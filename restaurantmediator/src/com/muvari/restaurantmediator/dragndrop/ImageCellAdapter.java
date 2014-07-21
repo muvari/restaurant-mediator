@@ -21,9 +21,7 @@ package com.muvari.restaurantmediator.dragndrop;
  *  Any problems are yours to fix. Wglxy.com is simply helping you get started. )
  */
 
-
 import com.muvari.restaurantmediator.R;
-import com.muvari.restaurantmediator.mediator.ChipFactory;
 import com.muvari.restaurantmediator.mediator.SurveyFragment;
 
 import android.content.Context;
@@ -38,45 +36,26 @@ import android.widget.*;
  * be provided when you create the adapter.
  * 
  */
-public class ImageCellAdapter extends BaseAdapter {
+public abstract class ImageCellAdapter extends BaseAdapter {
 
 	public ViewGroup mParentView = null;
-	private Context mContext;
-	private View.OnDragListener mDragListener = null;
-	private int count = -1;
-	private boolean pool = false;
-	private boolean likeAdapter = true;
-	private int[] likes;
-	private SurveyFragment fragment;
+	protected Context mContext;
+	protected View.OnDragListener mDragListener = null;
+	protected int count = -1;
+	protected boolean pool = false;
+	protected int[] likes;
+	protected SurveyFragment fragment;
 
-	public ImageCellAdapter(Context c) {
-		mContext = c;
-		mDragListener = null;
-	}
-
-	public ImageCellAdapter(Context c, View.OnDragListener l, int[] likes, boolean likeAdapter, SurveyFragment frag) {
+	public ImageCellAdapter(Context c, View.OnDragListener l, int[] likes, SurveyFragment frag) {
 		mContext = c;
 		mDragListener = l;
 		this.likes = likes;
-		this.likeAdapter = likeAdapter;
 		this.fragment = frag;
-	}
-	
-	public ImageCellAdapter(Context c, View.OnDragListener l, int count, int[] likes, int[] dislikes, SurveyFragment frag) {
-		mContext = c;
-		mDragListener = l;
-		this.count = count;
-		pool = true;
-		this.likes = likes;
-		this.fragment = frag;
-		
-		this.likes = new int[likes.length + dislikes.length];
-		System.arraycopy(likes, 0, this.likes, 0, likes.length);
-		System.arraycopy(dislikes, 0, this.likes, likes.length, dislikes.length);
 	}
 
 	public int getCount() {
-		if (count >= 0) return count;
+		if (count >= 0)
+			return count;
 		Resources res = mContext.getResources();
 		int numImages = res.getInteger(R.integer.num_images);
 		return numImages;
@@ -95,59 +74,23 @@ public class ImageCellAdapter extends BaseAdapter {
 	 * 
 	 * @return ImageCell
 	 */
-	public View getView(int position, View convertView, ViewGroup parent) {
-		//TODO: Use inheritance and override getView for different Adapters
-		ImageCell v = null;
-		if (pool) {
-			if (count == ChipFactory.PRIMARY_CHIPS) {
-				if (contains(position)) {
-					v = createEmptyCell(position, convertView, parent);
-				} else {
-					v = ChipFactory.createCatChip(mContext, position, true);
-				}
-			} else {
-				if (contains(position+ChipFactory.PRIMARY_CHIPS)) {
-					v = createEmptyCell(position, convertView, parent);
-				} else {
-					v = ChipFactory.createCatChip(mContext, position, false);
-				}
-			}
-		} else {
-			
-			if (likes[position] >= 0) {
-				int num = likes[position];
-				if (likes[position] >= ChipFactory.PRIMARY_CHIPS) {
-					num = num - ChipFactory.PRIMARY_CHIPS;
-				}
-				v = ChipFactory.createCatChip(mContext, num, likes[position] < ChipFactory.PRIMARY_CHIPS ? true : false);
-			} else {
-				v = createEmptyCell(position, convertView, parent);
-			}
-			
-		}
+	public abstract View getView(int position, View convertView, ViewGroup parent);
 
-		v.setOnTouchListener(fragment);
-		v.setOnClickListener(fragment);
-		v.setOnLongClickListener(fragment);
-
-		return v;
-	}
-	
 	/**
-	 * When coming back to a view, or rotating the device, check if there was a chip there previously 
+	 * When coming back to a view, or rotating the device, check if there was a
+	 * chip there previously
 	 * 
 	 * @param pos
 	 * @return
 	 */
-	private boolean contains(int pos) {
+	protected boolean contains(int pos) {
 		for (int i = 0; i < likes.length; i++) {
 			if (likes[i] == pos)
 				return true;
 		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * Creates a generic empty cell
 	 * 
@@ -156,7 +99,7 @@ public class ImageCellAdapter extends BaseAdapter {
 	 * @param parent
 	 * @return
 	 */
-	public ImageCell createEmptyCell(int position, View convertView, ViewGroup parent) {
+	protected ImageCell createEmptyCell(int position, View convertView, ViewGroup parent) {
 		mParentView = parent;
 		ImageCell v = null;
 		Resources res = mContext.getResources();
@@ -172,23 +115,13 @@ public class ImageCellAdapter extends BaseAdapter {
 		v.setBackgroundResource(R.color.cell_empty);
 		return v;
 	}
-	
+
 	public boolean isPool() {
 		return pool;
 	}
 
-	public void setPool(boolean pool) {
-		this.pool = pool;
-	}
-	
 	public void setLikes(int[] likes) {
 		this.likes = likes;
 	}
-	
-	public void setLikes(int[] likes, int[] dislikes) {
-		this.likes = new int[likes.length + dislikes.length];
-		System.arraycopy(likes, 0, this.likes, 0, likes.length);
-		System.arraycopy(dislikes, 0, this.likes, likes.length, dislikes.length);
-	}
 
-} 
+}

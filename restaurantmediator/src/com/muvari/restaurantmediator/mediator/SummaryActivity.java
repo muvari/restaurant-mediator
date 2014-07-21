@@ -11,8 +11,7 @@ import org.json.simple.JSONObject;
 
 import com.muvari.restaurantmediator.R;
 import com.muvari.restaurantmediator.mediator.StartSurveyActivity.StartSurveyFragment;
-import com.muvari.restaurantmediator.yelp.YelpAPI;
-
+import com.muvari.restaurantmediator.yelp.SimpleYelpLoader;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -189,7 +188,7 @@ public class SummaryActivity extends FragmentActivity {
 
 		@Override
 		public Loader<JSONObject> onCreateLoader(int arg0, Bundle arg1) {
-			return new YelpAPI.SimpleDBLoader(getActivity(), "", combineEqualLikes(getLikesInOrder(likes)), ChipFactory.getStringsFromIds(getActivity(), dislikes), ""+getMinDistance(), address, getMaxRating());
+			return new SimpleYelpLoader(getActivity(), "", combineEqualLikes(getLikesInOrder(likes)), ChipFactory.getStringsFromIds(getActivity(), dislikes), ""+getMinDistance(), address, getMaxRating());
 		}
 
 		@SuppressLint("SetJavaScriptEnabled")
