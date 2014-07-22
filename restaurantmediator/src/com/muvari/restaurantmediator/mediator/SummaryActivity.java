@@ -188,7 +188,7 @@ public class SummaryActivity extends FragmentActivity {
 
 		@Override
 		public Loader<JSONObject> onCreateLoader(int arg0, Bundle arg1) {
-			return new SimpleYelpLoader(getActivity(), "", combineEqualLikes(getLikesInOrder(likes)), ChipFactory.getStringsFromIds(getActivity(), dislikes), ""+getMinDistance(), address, getMaxRating());
+			return new SimpleYelpLoader(getActivity(), "", combineEqualLikes(getLikesInOrder(likes)), ChipFactory.getStringsFromIds(getActivity(), dislikes), ""+getMinDistance(), address, getMaxRating(), distances.length);
 		}
 
 		@SuppressLint("SetJavaScriptEnabled")

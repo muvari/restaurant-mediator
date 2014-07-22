@@ -10,9 +10,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
+import com.amazonaws.services.simpledb.model.PutAttributesRequest;
+import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.muvari.restaurantmediator.mediator.SummaryActivity.SummaryFragment;
 
 /**
@@ -31,6 +36,7 @@ public class SimpleYelpLoader extends AsyncTaskLoader<JSONObject> {
 	private String rad; // Radius
 	private String loc; // Location
 	private float rat; // Rating
+	private int users; //Users
 
 	private float originalRating;
 	private List<String> originalLikes;
@@ -39,7 +45,7 @@ public class SimpleYelpLoader extends AsyncTaskLoader<JSONObject> {
 		super(context);
 	}
 
-	public SimpleYelpLoader(Context context, String term, List<String> likes, List<String> dislikes, String rad, String loc, float rat) {
+	public SimpleYelpLoader(Context context, String term, List<String> likes, List<String> dislikes, String rad, String loc, float rat, int users) {
 		super(context);
 		this.term = term;
 		this.likes = likes;
@@ -47,6 +53,7 @@ public class SimpleYelpLoader extends AsyncTaskLoader<JSONObject> {
 		this.rad = rad;
 		this.loc = loc;
 		this.rat = rat;
+		this.users = users;
 		originalLikes = new ArrayList<String>(likes);
 		originalRating = rat + 0;
 	}
@@ -114,8 +121,11 @@ public class SimpleYelpLoader extends AsyncTaskLoader<JSONObject> {
 							break;
 						}
 					}
-					if (!disliked)
+					if (!disliked) {
+						if (RRPC.LOG_RESULTS)
+							uploadToAWS(bus.get("mobile_url").toString());
 						return bus;
+					}
 				}
 			}
 		}
@@ -149,5 +159,36 @@ public class SimpleYelpLoader extends AsyncTaskLoader<JSONObject> {
 			array.set(i, a);
 		}
 		return array;
+	}
+	
+	private void uploadToAWS(String business) {
+		new UploadtoAWS().execute(business);
+	}
+	
+	private class UploadtoAWS extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			String business = params[0];
+			AmazonSimpleDBClient client = new AmazonSimpleDBClient(new BasicAWSCredentials(RRPC.AWS_ACCESS_KEY, RRPC.AWS_SECRET_KEY));
+			
+			String timestamp = ""+System.currentTimeMillis();
+			List<ReplaceableAttribute> myList = new ArrayList<ReplaceableAttribute>(7);
+			myList.add(new ReplaceableAttribute().withName("uid").withValue(timestamp));
+			myList.add(new ReplaceableAttribute().withName("users").withValue(users+""));
+			myList.add(new ReplaceableAttribute().withName("rating").withValue(originalRating+""));
+			myList.add(new ReplaceableAttribute().withName("distance").withValue(rad));
+			myList.add(new ReplaceableAttribute().withName("location").withValue(loc));
+			myList.add(new ReplaceableAttribute().withName("restaurant").withValue(business));
+			myList.add(new ReplaceableAttribute().withName("category").withValue(originalLikes.toString()));
+
+			PutAttributesRequest request = new PutAttributesRequest()
+					.withDomainName(RRPC.DOMAIN)
+					.withItemName(timestamp)
+					.withAttributes(myList);
+			client.putAttributes(request);
+			return null;
+		}
+		
 	}
 }
