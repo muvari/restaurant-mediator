@@ -7,7 +7,7 @@
     <string name="pool_string">Tap on or drag/drop food types from here</string>
     <string name="likes_text">What are you in the mood for? (up to 3)</string>
     <string name="dislikes_text">What are you NOT in the mood for? (up to 3)</string>
-     <string name="directions">Can\'t agree on a restaurant? Have communication issues? Let me decide for you! Each of you Answer a few quick questions and I\'ll suggest a restaurant. My decision is final. No redos.</string>
+     <string name="directions">Can\'t agree on a restaurant? Let me decide for you! My decision is final. No redos.</string>
 	<string name="address_error">Please enter a valid address</string>
 	<string name="address_string">Address or zipcode</string>
 	<string name="detect">DETECT</string>
