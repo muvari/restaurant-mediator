@@ -11,9 +11,9 @@
         android:gravity="center"
         android:fontFamily="sans-serif-light"  
         android:textStyle="bold"
-        android:paddingBottom="8dp"
-        android:paddingLeft="8dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="@dimen/general_padding"
+        android:paddingLeft="@dimen/general_padding"
+        android:paddingTop="@dimen/general_padding"
         android:text="@string/likes_text" />
 
     <GridView
@@ -25,7 +25,7 @@
         android:paddingBottom="@dimen/section_padding"
         android:horizontalSpacing="@dimen/grid_cell_spacing"
         android:numColumns="@integer/num_columns"
-        android:paddingTop="8dp"
+        android:paddingTop="@dimen/general_padding"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/grid_cell_spacing" />
 

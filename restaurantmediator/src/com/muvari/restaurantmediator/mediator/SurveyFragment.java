@@ -30,6 +30,7 @@ import com.muvari.restaurantmediator.dragndrop.ImageCell;
 import com.muvari.restaurantmediator.dragndrop.ImageCellAdapter;
 import com.muvari.restaurantmediator.dragndrop.LikesCellAdapter;
 import com.muvari.restaurantmediator.dragndrop.PoolCellAdapter;
+import com.muvari.restaurantmediator.mediator.SummaryActivity.SummaryFragment;
 
 /**
  * SurveyFragment - User is asked a few questions of their likes/dislikes
@@ -202,7 +203,7 @@ public class SurveyFragment extends Fragment implements View.OnLongClickListener
 		RadioButton button = (RadioButton) distance.findViewById(selectedId);
 		int distance;
 		if (button == null) {
-			distance = 25;
+			distance = SummaryFragment.MAX_MILES;
 		} else {
 			distance = Integer.parseInt(button.getText().toString());
 		}

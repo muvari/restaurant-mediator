@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/chip_image"
-        android:layout_width="32dp"
+        android:layout_width="@dimen/chip_image_width"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:src="@drawable/italian" >
@@ -23,9 +23,8 @@
         android:textColor="@android:color/white"
         android:layout_toRightOf="@id/chip_image"
         android:background="@color/light_blue"
-        android:paddingLeft="8dp"
-        android:paddingTop="8dp"
-        android:text="Italian" >
+        android:paddingLeft="@dimen/general_padding"
+        android:paddingTop="@dimen/general_padding" >
     </TextView>
 
 </RelativeLayout>

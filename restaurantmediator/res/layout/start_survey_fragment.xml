@@ -14,8 +14,8 @@
             android:id="@+id/directions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="4dp"
-             android:paddingLeft="4dp"
+            android:paddingRight="@dimen/general_padding"
+             android:paddingLeft="@dimen/general_padding"
             android:layout_marginTop="@dimen/section_padding"
             android:text="@string/directions" />
 
@@ -26,7 +26,7 @@
             android:layout_marginTop="@dimen/section_padding"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="Address or zipcode" />
+            android:text="@string/address_string" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/light_blue"
-                android:text="DETECT"
+                android:text="@string/detect"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
@@ -63,7 +63,7 @@
             android:layout_marginTop="@dimen/section_padding"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="How many people are in your group?" />
+            android:text="@string/group_picker" />
 
         <NumberPicker
             android:id="@+id/numberPicker1"
@@ -83,7 +83,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/section_padding"
         android:background="@color/light_blue"
-        android:text="START"
+        android:text="@string/start"
         android:textColor="@android:color/white" />
     
         <ImageView

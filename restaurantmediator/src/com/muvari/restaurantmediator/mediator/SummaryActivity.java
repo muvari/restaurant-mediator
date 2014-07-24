@@ -69,6 +69,7 @@ public class SummaryActivity extends FragmentActivity {
 		private ProgressBar progress;
 		
 		public static final float METERS_IN_MILE = (float) 1609.34;
+		public static final int MAX_MILES = 25;
 
 		@SuppressWarnings("unchecked")
 		public static SummaryFragment newInstance(Bundle bundle) {
@@ -116,7 +117,7 @@ public class SummaryActivity extends FragmentActivity {
 		 * @return
 		 */
 		private int getMinDistance() {
-			int min = 25;
+			int min = MAX_MILES;
 			for (int i : distances) {
 				if (i < min)
 					min = i;

@@ -71,8 +71,8 @@ public class StartSurveyActivity extends FragmentActivity {
 					false);
 			
 			picker = (NumberPicker)view.findViewById(R.id.numberPicker1);
-			picker.setMinValue(1);
-			picker.setMaxValue(10);
+			picker.setMinValue(getResources().getInteger(R.integer.min_users));
+			picker.setMaxValue(getResources().getInteger(R.integer.max_users));
 			picker.setValue(2);
 			
 			addressText = (EditText)view.findViewById(R.id.editText1);
@@ -94,7 +94,7 @@ public class StartSurveyActivity extends FragmentActivity {
 				@Override
 				public void onClick(View v) {
 					if (addressText.getText().toString().length() < 5) {
-						addressText.setError("Please enter a valid address");
+						addressText.setError(getResources().getString(R.string.address_error));
 					} else {
 					Intent intent = new Intent(getActivity(), SurveyActivity.class);
 					intent.putExtra(ADDRESS_TAG, addressText.getText().toString());

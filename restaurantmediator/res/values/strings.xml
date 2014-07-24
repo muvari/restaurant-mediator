@@ -8,9 +8,26 @@
     <string name="likes_text">What are you in the mood for? (up to 3)</string>
     <string name="dislikes_text">What are you NOT in the mood for? (up to 3)</string>
      <string name="directions">Can\'t agree on a restaurant? Have communication issues? Let me decide for you! Each of you Answer a few quick questions and I\'ll suggest a restaurant. My decision is final. No redos.</string>
-
+	<string name="address_error">Please enter a valid address</string>
+	<string name="address_string">Address or zipcode</string>
+	<string name="detect">DETECT</string>
+	<string name="start">START</string>
+	<string name="done">DONE</string>
+	<string name="show_more">SHOW MORE</string>
+	<string name="show_less">SHOW LESS</string>
+	<string name="group_picker">How many people are in your group?</string>
+	<string name="loading_results">Choosing a Restaurant... All Decisions Final.</string>
+	
+	<string name="distance1">1</string>
+	<string name="distance2">5</string>
+	<string name="distance3">10</string>
+	<string name="distance4">15</string>
+	<string name="distance5">25</string>
+     
     <integer name="num_images">3</integer>
     <integer name="num_columns">3</integer>
+    <integer name="min_users">1</integer>
+    <integer name="max_users">10</integer>
 
     <!-- Food Category Visible Strings -->
     <string name="afghan">Afghan</string>

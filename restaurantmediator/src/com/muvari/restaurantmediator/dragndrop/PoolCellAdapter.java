@@ -19,9 +19,7 @@ public class PoolCellAdapter extends ImageCellAdapter {
 		this.count = count;
 		pool = true;
 
-		this.likes = new int[likes.length + dislikes.length];
-		System.arraycopy(likes, 0, this.likes, 0, likes.length);
-		System.arraycopy(dislikes, 0, this.likes, likes.length, dislikes.length);
+		setLikes(likes, dislikes);
 	}
 
 	/**
