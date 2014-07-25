@@ -9,15 +9,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
-        
-            <TextView
+
+        <TextView
             android:id="@+id/directions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="@dimen/general_padding"
-             android:paddingLeft="@dimen/general_padding"
             android:layout_marginTop="@dimen/section_padding"
-            android:text="@string/directions" />
+            android:paddingLeft="@dimen/general_padding"
+            android:paddingRight="@dimen/general_padding"
+            android:text="@string/directions"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textView1"
@@ -26,7 +27,8 @@
             android:layout_marginTop="@dimen/section_padding"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="@string/address_string" />
+            android:text="@string/address_string"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +65,8 @@
             android:layout_marginTop="@dimen/section_padding"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="@string/group_picker" />
+            android:text="@string/group_picker"
+            android:textSize="16sp" />
 
         <NumberPicker
             android:id="@+id/numberPicker1"
@@ -74,8 +77,6 @@
             android:orientation="horizontal" />
     </LinearLayout>
 
-
-
     <Button
         android:id="@+id/start_button"
         android:layout_width="match_parent"
@@ -85,13 +86,22 @@
         android:background="@color/light_blue"
         android:text="@string/start"
         android:textColor="@android:color/white" />
-    
-        <ImageView
+
+    <ImageView
         android:id="@+id/yelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_above="@id/start_button"
+        android:gravity="center"
         android:src="@drawable/yelp_logo" />
+
+    <TextView
+        android:id="@+id/poweredby"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/yelp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/powered_by" />
 
 </RelativeLayout>

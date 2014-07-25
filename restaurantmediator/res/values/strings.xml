@@ -15,6 +15,7 @@
 	<string name="done">DONE</string>
 	<string name="show_more">SHOW MORE</string>
 	<string name="show_less">SHOW LESS</string>
+	<string name="powered_by">Powered By:</string>
 	<string name="group_picker">How many people are in your group?</string>
 	<string name="loading_results">Choosing a Restaurant... All Decisions Final.</string>
 	
