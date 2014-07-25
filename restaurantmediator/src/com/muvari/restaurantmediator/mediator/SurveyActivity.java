@@ -33,6 +33,8 @@ public class SurveyActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_pager_activity);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Instantiate a ViewPager and a PagerAdapter.
 		mPager = (ViewPager) findViewById(R.id.pager);

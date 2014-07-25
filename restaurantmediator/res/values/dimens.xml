@@ -9,7 +9,7 @@
     <dimen name="chip_image_width">32dp</dimen>
 
 
-    <dimen name="loading_bar_top_padding">256dp</dimen>
+    <dimen name="loading_bar_top_padding">128dp</dimen>
     <dimen name="button_bar_height">56dip</dimen>
     <dimen name="button_bar_height_portrait">56dip</dimen>
     <dimen name="status_bar_height">25dip</dimen>

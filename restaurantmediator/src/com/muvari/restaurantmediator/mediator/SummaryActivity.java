@@ -40,6 +40,7 @@ public class SummaryActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.scrollable_activity);
 		if (savedInstanceState == null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();

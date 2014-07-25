@@ -19,12 +19,21 @@
         <activity
             android:name="com.muvari.restaurantmediator.mediator.SurveyActivity"
             android:configChanges="keyboardHidden"
+            android:parentActivityName="com.muvari.restaurantmediator.mediator.StartSurveyActivity"
             android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.muvari.restaurantmediator.mediator.StartSurveyActivity" />
+ >
         </activity>
         <activity
             android:name="com.muvari.restaurantmediator.mediator.SummaryActivity"
             android:configChanges="keyboardHidden"
+            android:parentActivityName="com.muvari.restaurantmediator.mediator.StartSurveyActivity"
             android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.muvari.restaurantmediator.mediator.StartSurveyActivity" />
         </activity>
         <activity
             android:name="com.muvari.restaurantmediator.mediator.StartSurveyActivity"
