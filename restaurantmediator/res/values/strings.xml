@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Restaurant Ref</string>
     <string name="person_name">Name: </string>
+    <string name="rating">Rating: </string>
     <string name="rating_string">How bad of a restaurant are you willing to go to?</string>
     <string name="distance_string">How far are you willing to travel (miles)?</string>
     <string name="pool_string">Tap on or drag/drop food types from here</string>
