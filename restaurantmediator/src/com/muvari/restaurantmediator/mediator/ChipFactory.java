@@ -170,6 +170,7 @@ public class ChipFactory {
 		// Temp add different colors
 		int[] colors = { R.color.light_blue, R.color.light_red, R.color.light_green, R.color.light_orange, R.color.light_purple };
 		((TextView) (chip.findViewById(R.id.chip_text))).setBackgroundResource(colors[num % 5]);
+		((ImageView) (chip.findViewById(R.id.chip_image))).setBackgroundResource(colors[num % 5]);
 
 		newView.mEmpty = false;
 		newView.mCellNumber = id;
