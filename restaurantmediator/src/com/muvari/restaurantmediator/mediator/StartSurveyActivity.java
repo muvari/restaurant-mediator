@@ -25,7 +25,9 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.NumberPicker.OnValueChangeListener;
 
 /**
  * Starting Activity. Includes basic instructions and where you state location and member of group
@@ -59,8 +61,18 @@ public class StartSurveyActivity extends FragmentActivity {
 		public static final String CUR_PERSON_TAG = "cur_person_tag";
 		
 		private NumberPicker picker;
+		private ImageView people;
+		private static final int[] peopleDrawables = { R.drawable.people_1, R.drawable.people_2, R.drawable.people_3, R.drawable.people_4,
+			R.drawable.people_5, R.drawable.people_6, R.drawable.people_7, R.drawable.people_8, R.drawable.people_9};
+		
 		private EditText addressText;
 	
+		@Override
+		public void onSaveInstanceState(Bundle outState) {
+			super.onSaveInstanceState(outState);
+			outState.putInt("people", picker.getValue());
+		}
+
 		public StartSurveyFragment() {
 		}
 
@@ -70,10 +82,20 @@ public class StartSurveyActivity extends FragmentActivity {
 			View view = inflater.inflate(R.layout.start_survey_fragment, container,
 					false);
 			
+			people = (ImageView)view.findViewById(R.id.people);
 			picker = (NumberPicker)view.findViewById(R.id.numberPicker1);
 			picker.setMinValue(getResources().getInteger(R.integer.min_users));
 			picker.setMaxValue(getResources().getInteger(R.integer.max_users));
-			picker.setValue(2);
+			picker.setValue(savedInstanceState != null ? savedInstanceState.getInt("people") : 2);
+			people.setImageResource(peopleDrawables[picker.getValue()-1]);
+			picker.setOnValueChangedListener(new OnValueChangeListener() {
+
+				@Override
+				public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+					people.setImageResource(peopleDrawables[newVal-1]);
+				}
+				
+			});
 			
 			addressText = (EditText)view.findViewById(R.id.editText1);
 			
