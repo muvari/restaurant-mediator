@@ -10,6 +10,7 @@
     <string name="dislikes_text">What are you NOT in the mood for? (up to 3)</string>
      <string name="directions">Can\'t agree on a restaurant? Let me decide for you! My decision is final. No redos.</string>
 	<string name="address_error">Please enter a valid address</string>
+	<string name="address_error2">Could not detect a location</string>
 	<string name="address_string">Address or zipcode</string>
 	<string name="detect">DETECT</string>
 	<string name="start">START</string>
