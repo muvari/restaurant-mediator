@@ -1,107 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/directions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/section_padding"
+        android:paddingLeft="@dimen/general_padding"
+        android:paddingRight="@dimen/general_padding"
+        android:text="@string/directions"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/sep3"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="@dimen/section_padding" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/section_padding"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/address_string"
+        android:textSize="16sp" />
 
     <LinearLayout
-        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical" >
+        android:layout_marginTop="@dimen/section_padding"
+        android:orientation="horizontal"
+        android:weightSum="3" >
 
-        <TextView
-            android:id="@+id/directions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/section_padding"
-            android:paddingLeft="@dimen/general_padding"
-            android:paddingRight="@dimen/general_padding"
-            android:text="@string/directions"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/section_padding"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:text="@string/address_string"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/section_padding"
-            android:orientation="horizontal"
-            android:weightSum="3" >
-
-            <EditText
-                android:id="@+id/editText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:inputType="textPostalAddress" >
-
-                <requestFocus />
-            </EditText>
-
-            <Button
-                android:id="@+id/detect_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/light_blue"
-                android:text="@string/detect"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/section_padding"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:text="@string/group_picker"
-            android:textSize="16sp" />
-
-        <NumberPicker
-            android:id="@+id/numberPicker1"
+        <EditText
+            android:id="@+id/editText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/section_padding"
-            android:orientation="horizontal" />
+            android:layout_weight="2"
+            android:ems="10"
+            android:inputType="textPostalAddress"
+            android:lines="2" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/detect_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/light_blue"
+            android:text="@string/detect"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/section_padding"
-        android:background="@color/light_blue"
-        android:text="@string/start"
-        android:textColor="@android:color/white" />
+    <View
+        android:id="@+id/sep2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="@dimen/section_padding" />
 
-    <ImageView
-        android:id="@+id/yelp"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/start_button"
+        android:layout_marginTop="@dimen/section_padding"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:src="@drawable/yelp_logo" />
+        android:text="@string/group_picker"
+        android:textSize="16sp" />
+
+    <NumberPicker
+        android:id="@+id/numberPicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/section_padding"
+        android:orientation="horizontal" />
+
+    <View
+        android:id="@+id/sep1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="@dimen/section_padding" />
 
     <TextView
         android:id="@+id/poweredby"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/yelp"
         android:fontFamily="sans-serif-light"
+        android:layout_marginTop="@dimen/section_padding"
         android:gravity="center"
         android:text="@string/powered_by" />
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/yelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:src="@drawable/yelp_logo" />
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/section_padding"
+        android:background="@color/light_blue"
+        android:text="@string/start"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
