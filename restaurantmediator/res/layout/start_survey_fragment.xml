@@ -20,8 +20,8 @@
         android:id="@+id/sep3"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="@dimen/section_padding" />
+        android:layout_marginTop="@dimen/section_padding"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/textView1"
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/light_blue"
+            android:background="@drawable/button_selector"
             android:text="@string/detect"
             android:textColor="@android:color/white" />
     </LinearLayout>
@@ -66,8 +66,8 @@
         android:id="@+id/sep2"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="@dimen/section_padding" />
+        android:layout_marginTop="@dimen/section_padding"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/textView2"
@@ -91,15 +91,15 @@
         android:id="@+id/sep1"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="@dimen/section_padding" />
+        android:layout_marginTop="@dimen/section_padding"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/poweredby"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
         android:layout_marginTop="@dimen/section_padding"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/powered_by" />
 
@@ -115,7 +115,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/section_padding"
-        android:background="@color/light_blue"
+        android:background="@drawable/button_selector"
         android:text="@string/start"
         android:textColor="@android:color/white" />
 

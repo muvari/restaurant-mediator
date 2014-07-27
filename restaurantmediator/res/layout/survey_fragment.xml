@@ -187,7 +187,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/cat_pool"
         android:layout_centerInParent="true"
-        android:background="@android:color/transparent"
+        android:background="@drawable/view_selector"
         android:drawableRight="@drawable/ic_action_expand"
         android:gravity="center"
         android:textOff="@string/show_more"
@@ -208,7 +208,7 @@
         android:layout_below="@id/sep6"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/section_padding"
-        android:background="@color/light_blue"
+        android:background="@drawable/button_selector"
         android:gravity="center"
         android:text="@string/done"
         android:textColor="@android:color/white" />

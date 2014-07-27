@@ -16,6 +16,7 @@
 <color name="drop_target_disabled">#FFdddddd</color>
 
 <color name="light_blue">#33B5E5</color>
+<color name="lighter_blue">#ADE1F5</color>
 <color name="dark_blue">#0099CC</color>
 <color name="light_purple">#AA66CC</color>
 <color name="dark_purple">#9933CC</color>
