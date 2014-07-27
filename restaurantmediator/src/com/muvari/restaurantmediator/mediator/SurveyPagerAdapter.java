@@ -27,12 +27,6 @@ public class SurveyPagerAdapter extends FragmentStatePagerAdapter {
 		return frag;
     }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        frags[position] = null;
-        super.destroyItem(container, position, object);
-    }
-
 	@Override
 	public int getCount() {
 		return count;

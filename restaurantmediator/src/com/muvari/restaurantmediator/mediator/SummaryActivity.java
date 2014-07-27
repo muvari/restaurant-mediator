@@ -64,6 +64,7 @@ public class SummaryActivity extends FragmentActivity {
 		private HashMap<Integer, Integer> likes;
 		private ArrayList<Integer> dislikes;
 		private String address;
+		private String url;
 		
 		private TextView text;
 		private WebView webView;
@@ -87,13 +88,22 @@ public class SummaryActivity extends FragmentActivity {
 			
 		}
 
+		@SuppressLint("SetJavaScriptEnabled")
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View view = inflater.inflate(R.layout.summary_fragment, container,
 					false);
 			
-			getLoaderManager().initLoader(0, null, this).forceLoad();
+			if (url != null) {
+				progress.setVisibility(View.GONE);
+				text.setVisibility(View.GONE);
+				webView.setVisibility(View.VISIBLE);
+				webView.getSettings().setJavaScriptEnabled(true);
+				webView.loadUrl(url);
+			} else {
+				getLoaderManager().initLoader(0, null, this).forceLoad();
+			}
 			text = ((TextView)view.findViewById(R.id.ending));
 			webView = ((WebView)view.findViewById(R.id.webView1));
 			progress = ((ProgressBar)view.findViewById(R.id.progress));
@@ -196,7 +206,7 @@ public class SummaryActivity extends FragmentActivity {
 		@SuppressLint("SetJavaScriptEnabled")
 		@Override
 		public void onLoadFinished(Loader<JSONObject> arg0, JSONObject arg1) {
-			String url = arg1.get("mobile_url").toString();
+			url = arg1.get("mobile_url").toString();
 			progress.setVisibility(View.GONE);
 			text.setVisibility(View.GONE);
 			webView.setVisibility(View.VISIBLE);

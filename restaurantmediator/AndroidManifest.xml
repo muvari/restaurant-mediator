@@ -28,7 +28,7 @@
         </activity>
         <activity
             android:name="com.muvari.restaurantmediator.mediator.SummaryActivity"
-            android:configChanges="keyboardHidden"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="com.muvari.restaurantmediator.mediator.StartSurveyActivity"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
